@@ -243,6 +243,16 @@
     <div id="homeTab" class="screen">
         <h2 style="color: var(--gold); font-size: 20px; margin-top: 10px;">بحبك يا رورو يا روحي 💖</h2>
 
+        <!-- مشغل الموسيقى الرئيسية مباشر -->
+        <div class="feature-card" style="border: 1px solid var(--accent-pink); background: rgba(255, 42, 117, 0.1);">
+            <strong style="color: var(--gold);">🎵 الأغنية الرئيسية (إنتي أعظم اختيار):</strong>
+            <p style="font-size: 11px; color: #ccc; margin: 4px 0 8px;">لو لم تبدأ الأغنية تلقائياً، شغليها بضغطة زر من هنا ❤️</p>
+            <audio id="bgMusic" loop controls style="width: 100%; height: 35px; border-radius: 10px;">
+                <source src="https://serv2.albumaty.com/up/upload/JxSKXYc178/Lil-Elmohamedy-Enty-Aazam-Ekhtyar-%D9%84%D9%8A%D9%84-%D8%A7%D9%84%D9%85%D8%AD%D9%85%D8%AF%D9%8A-%D8%A7%D9%86%D8%AA%D9%8A-%D8%A7%D8%B9%D8%B8%D9%85-%D8%A7%D8%AE%D8%AA%D9%8A%D8%A7%D8%B1-(%D8%A7%D9%86%D8%AA%D9%8A-%D8%A7%D9%84%D9%87%D9%88%D8%A7-%D9%88%D9%85%D9%86-%D9%87%D9%88%D8%A7%D9%87-%D9%82%D9%84%D8%A8%D9%8A).mp3" type="audio/mpeg">
+                متصفحك لا يدعم تشغيل الصوت مباشرة.
+            </audio>
+        </div>
+
         <div class="vip-card-box">
             <div style="font-size: 11px; font-weight: bold; letter-spacing: 2px;">ROYAL VIP CARD 👑</div>
             <div style="font-size: 18px; font-weight: bold; margin: 6px 0; color: #000;">👑 صلاحيات الملكة رورو</div>
@@ -287,7 +297,7 @@
         <h3 style="color: var(--gold); margin-top: 10px;">🎮 الألعاب والفعاليات التفاعلية</h3>
 
         <div class="feature-card">
-            <strong style="color: #fff; font-size: 16px;">33. بطارية قلبي 🔋</strong>
+            <strong style="color: #fff; font-size: 16px;">🔋 بطارية قلبي</strong>
             <p style="font-size: 12px; color: #ddd; margin: 6px 0 10px 0;">قلبي بيفصل لما بتبعدي، اضغطي عشان تشحنيه:</p>
             
             <div class="battery-container">
@@ -470,12 +480,7 @@
     </div>
 </div>
 
-<!-- الموسيقى الرئيسية (إنتي أعظم اختيار - ليل المحمدي) -->
-<audio id="bgMusic" loop preload="auto">
-    <source src="https://serv2.albumaty.com/up/upload/JxSKXYc178/Lil-Elmohamedy-Enty-Aazam-Ekhtyar-%D9%84%D9%8A%D9%84-%D8%A7%D9%84%D9%85%D8%AD%D9%85%D8%AF%D9%8A-%D8%A7%D9%86%D8%AA%D9%8A-%D8%A7%D9%82%D8%B7%D9%85-%D8%A7%D8%AE%D8%AA%D9%8A%D8%A7%D8%B1-(%D8%A7%D9%86%D8%AA%D9%8A-%D8%A7%D9%84%D9%87%D9%88%D8%A7-%D9%88%D9%85%D9%86-%D9%87%D9%88%D8%A7%D9%87-%D9%82%D9%84%D8%A8%D9%8A).mp3" type="audio/mpeg">
-</audio>
-
-<!-- أغنية الاتصال -->
+<!-- أغنية الاتصال الجانبية -->
 <audio id="callSong" preload="auto">
     <source src="https://serv2.albumaty.com/2026/Albumaty.Com_twwlyt_twwlyt_gryit_awy.mp3" type="audio/mpeg">
 </audio>
@@ -487,7 +492,6 @@
     let missCounter = 0;
     let batteryLevel = 0;
 
-    // قائمة رسائل رومانسية متجددة تلقائياً كل 24 ساعة
     const dailyMessages = [
         "صباح الخير يا أجمل اختيار اخترته بحياتي.. وجودك معي بيكفي عن كل حاجة ثانية ❤️",
         "كل يوم بيكبر حبي ليكي أكتر، ومفيش يوم بيعدي إلا وأنا بشكر ربنا إنك بقيتي من نصيبي ✨💍",
@@ -529,7 +533,19 @@
             document.getElementById('bottomNav').style.display = 'flex';
             
             const audio = document.getElementById('bgMusic');
-            audio.play().catch(e => console.log("Audio error: ", e));
+            if (audio) {
+                audio.muted = false;
+                audio.currentTime = 0;
+                
+                const playPromise = audio.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        console.log("Audio playing successfully!");
+                    }).catch(e => {
+                        console.log("Autoplay restricted by browser, fallback to manual controls.", e);
+                    });
+                }
+            }
 
             safeConfetti();
             startTimer();
@@ -611,7 +627,6 @@
         if (bgMusic) bgMusic.pause();
 
         if (callSong) {
-            // يبدأ تشغيل مقطع أغنية الاتصال من الثانية 44 فوراً
             callSong.currentTime = 44; 
             var playPromise = callSong.play();
             if (playPromise !== undefined) {
@@ -634,92 +649,91 @@
 
     function confirmCall() {
         document.getElementById('callModal').classList.remove('active');
-        window.location.href = "tel:01027431616";
+        window.location.href = "tel:+201027431616";
     }
 
     function showVipPowers() {
-        alert("👑 صلاحيات رورو الملكية المطلقة:\n1. أمر مطاع ونفّاذ في أي وقت بدون مناقشة!\n2. اختيار الخروجة ومكان الأكل على ذوقك دايماً.\n3. الدلع والحب والدلال المفتوح مدى الحياة ❤️");
+        alert("👑 صلاحيات الملكة رورو المطلقة:\n1. الدلع والتأليل بدون حدود ❤️\n2. تنفيذ الأوامر فوراً 🫡\n3. مكانة ثابتة في قلب عمر للأبد 💍");
         safeConfetti();
-    }
-
-    function moveSlide(direction) {
-        currentIndex = (currentIndex + direction + totalSlides) % totalSlides;
-        document.getElementById('sliderWrapper').style.transform = `translateX(${currentIndex * 100}%)`;
-        document.getElementById('slideNum').innerText = currentIndex + 1;
-    }
-
-    function sendWish() {
-        const wish = document.getElementById('wishInput').value.trim();
-        if (wish) {
-            alert('وصلتني أمنيتك يا روحي.. وهتتنفذ فوراً إن شاء الله! ❤️✨');
-            document.getElementById('wishInput').value = '';
-            safeConfetti();
-        } else {
-            alert('اكتبي الأمنية الأول يا روحي ❤️');
-        }
-    }
-
-    function sendWhatsAppMessage() {
-        const msg = document.getElementById('customMessage').value.trim();
-        if (msg) {
-            window.open(`https://wa.me/201027431616?text=${encodeURIComponent(msg)}`, '_blank');
-        } else {
-            alert('اكتبي الرسالة الأول يا حبيبتي ❤️');
-        }
     }
 
     function spinRealWheel() {
         const wheel = document.getElementById('wheel');
-        const places = ["سينما 🎬", "كورنيش النيل 🌊", "عشاء رومانسي 🍽️", "فسحة وملاهي 🎡"];
-        const randomDeg = 1440 + Math.floor(Math.random() * 360);
+        const options = ["سينما 🎬", "عشاء رومانسي 🍝", "خروجة كورنيش 🌊", "مول وشوبينج 🛍️"];
+        const randomDeg = Math.floor(3600 + Math.random() * 360);
+        
         wheel.style.transform = `rotate(${randomDeg}deg)`;
         
         setTimeout(() => {
-            const selected = places[Math.floor(Math.random() * places.length)];
-            document.getElementById('wheelResult').innerText = "خروجتنا الجاية: " + selected + " 🎉❤️";
+            const actualDeg = randomDeg % 360;
+            const optionIndex = Math.floor(actualDeg / 90);
+            const selectedOption = options[optionIndex] || options[0];
+            document.getElementById('wheelResult').innerText = "مبروك طلعلك: " + selectedOption + " 🥳✨";
             safeConfetti();
         }, 4000);
     }
 
+    function moveSlide(direction) {
+        const wrapper = document.getElementById('sliderWrapper');
+        currentIndex += direction;
+        
+        if (currentIndex < 0) currentIndex = totalSlides - 1;
+        if (currentIndex >= totalSlides) currentIndex = 0;
+        
+        wrapper.style.transform = `translateX(${currentIndex * 100}%)`;
+        document.getElementById('slideNum').innerText = currentIndex + 1;
+    }
+
     function answerQuiz() {
-        document.getElementById('quizResponse').innerText = "وأنا بحب كل حاجة فيكي وبموت فيكي يا أطيب رورو! ❤️👑";
+        document.getElementById('quizResponse').innerText = "وأنا بحب كل تفصيلة فيكي يا ملكتي ❤️";
         safeConfetti();
     }
 
     function chillMode() {
-        alert("تم تفعيل وضع الروقان! خدي نفس عميق وفكري في أحلى يوم هيجمعنا قريب سوى 🌊☕💖");
+        alert("يلا بينا جهزي نفسك لأحلى خروجة على الكورنيش مع عصير مانجو والروقان كله! 🌊🍹✨");
+        safeConfetti();
     }
 
-    const startDate = new Date("2026-01-31T00:00:00");
+    function sendWish() {
+        const wish = document.getElementById('wishInput').value.trim();
+        if (wish !== "") {
+            const msg = encodeURIComponent("أمنية الملكة رورو ✨:\n" + wish);
+            window.open(`https://wa.me/201027431616?text=${msg}`, '_blank');
+        } else {
+            alert("اكتبي أمنيتك الأول يا روحي! ❤️");
+        }
+    }
+
+    function sendWhatsAppMessage() {
+        const msgText = document.getElementById('customMessage').value.trim();
+        if (msgText !== "") {
+            const msg = encodeURIComponent("رسالة من رورو ❤️:\n" + msgText);
+            window.open(`https://wa.me/201027431616?text=${msg}`, '_blank');
+        } else {
+            alert("اكتبي رسالتك الأول يا روحي! ❤️");
+        }
+    }
 
     function startTimer() {
+        const startDate = new Date("2026-01-31T00:00:00");
+        
         setInterval(() => {
             const now = new Date();
-            let years = now.getFullYear() - startDate.getFullYear();
-            let months = now.getMonth() - startDate.getMonth();
-            let days = now.getDate() - startDate.getDate();
+            const diff = now - startDate;
 
-            if (days < 0) {
-                months -= 1;
-                const prevMonthDays = new Date(now.getFullYear(), now.getMonth(), 0).getDate();
-                days += prevMonthDays;
-            }
+            const seconds = Math.floor((diff / 1000) % 60);
+            const minutes = Math.floor((diff / (1000 * 60)) % 60);
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const days = Math.floor((diff / (1000 * 60 * 60 * 24)) % 30);
+            const months = Math.floor((diff / (1000 * 60 * 60 * 24 * 30.4375)) % 12);
+            const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
 
-            if (months < 0) {
-                years -= 1;
-                months += 12;
-            }
-
-            const hours = now.getHours();
-            const minutes = now.getMinutes();
-            const seconds = now.getSeconds();
-
-            document.getElementById('years').innerText = years;
-            document.getElementById('months').innerText = months;
-            document.getElementById('days').innerText = days;
-            document.getElementById('hours').innerText = hours;
-            document.getElementById('minutes').innerText = minutes;
-            document.getElementById('seconds').innerText = seconds;
+            document.getElementById("years").innerText = years;
+            document.getElementById("months").innerText = months;
+            document.getElementById("days").innerText = days;
+            document.getElementById("hours").innerText = hours;
+            document.getElementById("minutes").innerText = minutes;
+            document.getElementById("seconds").innerText = seconds;
         }, 1000);
     }
 </script>
