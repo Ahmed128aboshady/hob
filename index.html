@@ -180,7 +180,6 @@
             color: #fff; border-radius: 12px; font-size: 13px; cursor: pointer; transition: 0.3s;
         }
 
-        /* 🔋 استايل لعبة بطارية قلبي */
         .battery-container {
             width: 100%;
             height: 26px;
@@ -244,7 +243,6 @@
     <div id="homeTab" class="screen">
         <h2 style="color: var(--gold); font-size: 20px; margin-top: 10px;">بحبك يا رورو يا روحي 💖</h2>
 
-        <!-- كارت الـ VIP الخاص بكِ -->
         <div class="vip-card-box">
             <div style="font-size: 11px; font-weight: bold; letter-spacing: 2px;">ROYAL VIP CARD 👑</div>
             <div style="font-size: 18px; font-weight: bold; margin: 6px 0; color: #000;">👑 صلاحيات الملكة رورو</div>
@@ -252,7 +250,6 @@
             <button class="btn-primary" style="background: #1a002c; color: var(--gold); border: 1px solid var(--gold); width: 90%; margin: 0;" onclick="showVipPowers()">اعرضي هويتك 💳</button>
         </div>
 
-        <!-- عداد الوقت الكامل -->
         <h4 style="text-align: right; color: var(--gold); margin-bottom: 5px;">عداد الحب بيننا ⏳</h4>
         <div class="counter-grid">
             <div class="counter-card"><span id="years">0</span><label>سنة</label></div>
@@ -263,21 +260,18 @@
             <div class="counter-card"><span id="seconds">0</span><label>ثانية</label></div>
         </div>
 
-        <!-- ✉️ رسالة حب اليوم -->
         <div class="feature-card">
             <strong style="color: var(--gold);">✉️ رسالة حب اليوم:</strong>
-            <p style="font-size: 12px; color: #ccc; margin: 8px 0;">رسالة جديدة بتتغير تلقائياً كل يوم ليكي:</p>
+            <p style="font-size: 12px; color: #ccc; margin: 8px 0;">رسالة دافئة بتتغير تلقائياً كل 24 ساعة ليكي:</p>
             <button class="btn-primary" style="width: 100%; margin: 0;" onclick="showDailyMessage()">افتحي رسالة اليوم 💌</button>
         </div>
 
-        <!-- 📞 اتصلي بـ عمر الآن -->
         <div class="feature-card">
             <strong style="color: var(--gold);">📞 اتصلي بعمر مباشرة:</strong>
             <p style="font-size: 11px; color: #ccc; margin: 6px 0;">وحشتيني؟ اضغطي هنا عشان تتصلي بيا فوراً:</p>
             <button class="btn-primary btn-call-direct" style="width: 100%; margin: 0;" onclick="openCallModal()">اتصلي بعمر 📞</button>
         </div>
 
-        <!-- 📞 محاكاة مكالمة من عمر -->
         <div class="feature-card">
             <strong style="color: var(--gold); font-size: 15px;">📞 مكالمة طارئة من حبيب القلب</strong>
             <p style="font-size: 11px; color: #ccc; margin: 6px 0;">تردي على المكالمة الآن؟</p>
@@ -292,7 +286,6 @@
     <div id="gamesTab" class="screen">
         <h3 style="color: var(--gold); margin-top: 10px;">🎮 الألعاب والفعاليات التفاعلية</h3>
 
-        <!-- 🔋 33. لعبة بطارية قلبي -->
         <div class="feature-card">
             <strong style="color: #fff; font-size: 16px;">33. بطارية قلبي 🔋</strong>
             <p style="font-size: 12px; color: #ddd; margin: 6px 0 10px 0;">قلبي بيفصل لما بتبعدي، اضغطي عشان تشحنيه:</p>
@@ -306,7 +299,6 @@
             <p id="batteryStatus" style="font-size: 13px; color: var(--accent-pink); font-weight: bold; min-height: 20px; margin: 5px 0 0 0;"></p>
         </div>
 
-        <!-- 🧮 لعبة الآلة الحاسبة المجنونة -->
         <div class="feature-card">
             <strong style="color: var(--gold); font-size: 15px;">🧮 الآلة الحاسبة المجنونة:</strong>
             <p style="font-size: 11px; color: #ccc; margin: 6px 0;">احسبي أي حاجة وشوفي النتيجة:</p>
@@ -314,7 +306,6 @@
             <button class="btn-primary" style="width: 100%; margin: 0; background: linear-gradient(45deg, #a80038, #ff0055);" onclick="calculateLove()">يساوي =</button>
         </div>
         
-        <!-- لعبة كويز قد إيه بتعرفي عمر -->
         <div class="feature-card">
             <strong style="color: var(--accent-pink);">🎯 مين بيعرف التاني أكتر؟</strong>
             <p id="gameQuestion" style="font-size: 12px; color: #fff; margin: 8px 0;">أكتر أكلة عمر بيحبها منك إيه؟</p>
@@ -326,7 +317,6 @@
             <p id="gameResult" style="font-size: 12px; color: var(--gold); font-weight: bold; margin-top: 5px;"></p>
         </div>
 
-        <!-- عداد الشوق والتفكير -->
         <div class="feature-card">
             <strong style="color: var(--accent-pink);">💖 عداد الشوق والتفكير:</strong>
             <p style="font-size: 11px; color: #ccc; margin: 6px 0;">وحشتك دلوقتي؟ اضغطي هنا وسجلي شوقك لعمر:</p>
@@ -334,7 +324,6 @@
             <button class="btn-primary" style="width: 100%; margin: 0; background: linear-gradient(45deg, #e91e63, #ff4081);" onclick="addMissCount()">وحشتني يا عمر 🥺💖</button>
         </div>
 
-        <!-- عجلة حظ الخروجة -->
         <div class="feature-card">
             <strong style="color: var(--gold);">🎡 عجلة حظ الخروجة:</strong>
             <div class="wheel-box">
@@ -345,7 +334,6 @@
             <button class="btn-primary" style="width: 100%; margin: 0;" onclick="spinRealWheel()">دوري العجلة 🎲</button>
         </div>
 
-        <!-- أسئلة صراحة -->
         <div class="feature-card">
             <strong style="color: var(--gold);">💬 أسئلة صراحة:</strong>
             <p style="font-size: 12px; color: #fff; margin: 8px 0;">أكتر حاجة بتشدك ليا إيه؟</p>
@@ -356,7 +344,6 @@
             <p id="quizResponse" style="font-size: 12px; color: var(--accent-pink); font-weight: bold; margin-top: 6px;"></p>
         </div>
 
-        <!-- روشتة السعادة وزر الروقان -->
         <div class="feature-card">
             <strong style="color: var(--accent-pink);">💊 روشتة السعادة & ☕ زر الروقان:</strong>
             <button class="btn-primary" style="width: 100%; margin: 8px 0 5px;" onclick="alert('💊 تم صرف الروشتة: مكالمة أسمع فيها صوتك وتقوليلي بحبك ❤️')">اصرفي الروشتة 🧪</button>
@@ -368,7 +355,6 @@
     <div id="memoriesTab" class="screen">
         <h3 style="color: var(--gold); margin-top: 10px;">📸 معرض ذكرياتنا الجميلة</h3>
 
-        <!-- معرض الصور -->
         <div class="slider-container">
             <button class="slider-btn prev-btn" onclick="moveSlide(1)">❯</button>
             <div class="slider-wrapper" id="sliderWrapper">
@@ -397,7 +383,6 @@
         </div>
         <p style="font-size: 12px; color: var(--gold);">صورة رقم <span id="slideNum">1</span> من 20</p>
 
-        <!-- خريطة طريق حبنا -->
         <h4 style="text-align: right; color: var(--accent-pink); margin-top: 20px;">خريطة طريق حبنا 💍📍</h4>
         <div class="timeline">
             <div class="timeline-item">
@@ -422,7 +407,6 @@
             </div>
         </div>
 
-        <!-- 50 سبب مجنون بيكي -->
         <div class="feature-card">
             <strong style="color: var(--gold);">💖 أسباب خلتني مجنون بيكي:</strong>
             <div style="max-height: 150px; overflow-y: auto; text-align: right; margin-top: 8px;">
@@ -439,7 +423,6 @@
     <div id="servicesTab" class="screen">
         <h3 style="color: var(--gold); margin-top: 10px;">💬 رسائل وأمنيات لعمر</h3>
 
-        <!-- صندوق الأمنيات السري -->
         <div class="feature-card">
             <strong style="color: var(--accent-pink);">🎁 صندوق الأمنيات الملكي:</strong>
             <p style="font-size: 11px; color: #ccc; margin: 6px 0;">نفسك في إيه نعمله سوا أو اطلب أمنية وعمر هينفذها فوراً:</p>
@@ -447,7 +430,6 @@
             <button class="btn-primary" style="width: 100%; margin: 0; background: linear-gradient(45deg, #8a2be2, #4a00e0);" onclick="sendWish()">اطلبي الأمنية ✨</button>
         </div>
 
-        <!-- ابعتي رسالة على الواتساب -->
         <div class="feature-card">
             <strong style="color: var(--gold);">💬 رسالة سريعة لعمر على الواتساب:</strong>
             <p style="font-size: 11px; color: #ccc; margin: 6px 0;">اكتبي أي حاجة في بالك وهتوصلني فوراً:</p>
@@ -488,9 +470,9 @@
     </div>
 </div>
 
-<!-- الموسيقى الرئيسية -->
+<!-- الموسيقى الرئيسية (إنتي أعظم اختيار - ليل المحمدي) -->
 <audio id="bgMusic" loop preload="auto">
-    <source src="https://serv2.albumaty.com/up/upload/JxSKXYc178/Lil-Elmohamedy-Enty-Aazam-Ekhtyar-%D9%84%D9%8A%D9%84-%D8%A7%D9%84%D9%85%D8%AD%D9%85%D8%AF%D9%8A-%D8%A7%D9%86%D8%AA%D9%8A-%D8%A7%D8%B9%D8%B8%D9%85-%D8%A7%D8%AE%D8%AA%D9%8A%D8%A7%D8%B1-(%D8%A7%D9%86%D8%AA%D9%8A-%D8%A7%D9%84%D9%87%D9%88%D8%A7-%D9%88%D9%85%D9%86-%D9%87%D9%88%D8%A7%D9%87-%D9%82%D9%84%D8%A8%D9%8A).mp3" type="audio/mpeg">
+    <source src="https://serv2.albumaty.com/up/upload/JxSKXYc178/Lil-Elmohamedy-Enty-Aazam-Ekhtyar-%D9%84%D9%8A%D9%84-%D8%A7%D9%84%D9%85%D8%AD%D9%85%D8%AF%D9%8A-%D8%A7%D9%86%D8%AA%D9%8A-%D8%A7%D9%82%D8%B7%D9%85-%D8%A7%D8%AE%D8%AA%D9%8A%D8%A7%D8%B1-(%D8%A7%D9%86%D8%AA%D9%8A-%D8%A7%D9%84%D9%87%D9%88%D8%A7-%D9%88%D9%85%D9%86-%D9%87%D9%88%D8%A7%D9%87-%D9%82%D9%84%D8%A8%D9%8A).mp3" type="audio/mpeg">
 </audio>
 
 <!-- أغنية الاتصال -->
@@ -505,12 +487,22 @@
     let missCounter = 0;
     let batteryLevel = 0;
 
+    // قائمة رسائل رومانسية متجددة تلقائياً كل 24 ساعة
     const dailyMessages = [
-        "ألو.. وحشتيني أووي على فكرة! 💖",
-        "صباح الورد يا أجمل حاجة حصلت في حياتي كلها ✨❤️",
-        "عارفة؟ وجودك معي بيخلي أجدع يوم عادي يبقى أحلى يوم! 😍",
-        "بحبك النهاردة أكتر من إمبارح، وبكرة أكتر من النهاردة ❤️💍",
-        "إنتي مش بس خطيبتي.. إنتي نوري وضحكتي وكل دنيايا 🌸"
+        "صباح الخير يا أجمل اختيار اخترته بحياتي.. وجودك معي بيكفي عن كل حاجة ثانية ❤️",
+        "كل يوم بيكبر حبي ليكي أكتر، ومفيش يوم بيعدي إلا وأنا بشكر ربنا إنك بقيتي من نصيبي ✨💍",
+        "يا حظي الجميل وبداية كل حاجة حلوة.. ابتسامتك هي كل روقان يومي 🌸",
+        "يا روحي وعينيا ونوري.. كل ثانية وإنتي حبيبتي وأميرتي وكل دنيتي 💖",
+        "أنا مش بس بحبك، أنا بعشق كل تفصيلة فيكي وكل كلمة بتقوليها.. ربي يديمك لي العمر كله 👑",
+        "كل ليلة قبل ما أنام وبداية كل يوم جديد.. إنتي أول حاجة في بالي وأجمل فكرة في عقلي 💕",
+        "وجودك بقلبي بيخليني أحسن نسخة من نفسي.. بحبك يا أحلى وأحن رورو في الدنيا 🥺❤️",
+        "إنتي مش خطيبتي بس، إنتي نوري وملجئي وضحكة قلبي المليانة حب وسعادة ✨",
+        "لما بفتكر ليلة خطوبتنا ولبسنا الدبل، بحس إني ملكت العالم كله باختياري ليكي 💍❤️",
+        "يا كل أمنياتي ويا أجمل حقيقة عاشها قلبي.. بحبك لأخر العمر وما بعده 💖",
+        "لو سألوني عن سبب سعادتي، هقولهم إن ربنا رزقني بأحلى وأطيب رورو في الكون 🌸",
+        "صوتك وضحكتك هما الأكسجين اللي بتنفسه.. دمتِ لي حبيبتي حتى المشيب 👴🏻👵🏻❤️",
+        "كل خطوة باخدها في حياتي بتبقى أحلى وأسهل عشان عارف إنك معايا وجنبي 💕",
+        "عيونك يا رورو هما المكان الوحيد اللي بحس فيه بالأمان والراحة.. بحبك يا روحي 👁️✨"
     ];
 
     function safeConfetti() {
@@ -553,10 +545,9 @@
         element.classList.add('active');
     }
 
-    /* 🔋 دالة شحن البطارية */
     function chargeBattery() {
         if (batteryLevel < 100) {
-            batteryLevel += 20; // يزيد 20% مع كل ضغطة
+            batteryLevel += 20;
             if (batteryLevel > 100) batteryLevel = 100;
             
             document.getElementById('batteryFill').style.width = batteryLevel + '%';
@@ -573,7 +564,6 @@
         }
     }
 
-    /* 🧮 دالة الآلة الحاسبة المجنونة */
     function calculateLove() {
         alert("النتيجة = بحبك للأبد! ∞ 💗");
         safeConfetti();
@@ -596,13 +586,18 @@
 
     function showDailyMessage() {
         const today = new Date();
-        const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
-        alert(dailyMessages[dayOfYear % dailyMessages.length]);
+        const startOfYear = new Date(today.getFullYear(), 0, 0);
+        const diff = today - startOfYear;
+        const oneDay = 1000 * 60 * 60 * 24;
+        const dayOfYear = Math.floor(diff / oneDay);
+        
+        const messageIndex = dayOfYear % dailyMessages.length;
+        alert(dailyMessages[messageIndex]);
     }
 
     function acceptCall() {
         alert("ألو.. وحشتيني أووي على فكرة! 💖");
-        window.location.href = "tel:+201229144372";
+        window.location.href = "tel:+201027431616";
     }
 
     function rejectCall() {
@@ -616,7 +611,8 @@
         if (bgMusic) bgMusic.pause();
 
         if (callSong) {
-            callSong.currentTime = 0;
+            // يبدأ تشغيل مقطع أغنية الاتصال من الثانية 44 فوراً
+            callSong.currentTime = 44; 
             var playPromise = callSong.play();
             if (playPromise !== undefined) {
                 playPromise.catch(function(error) { console.log("Audio playback failed: ", error); });
@@ -646,6 +642,54 @@
         safeConfetti();
     }
 
+    function moveSlide(direction) {
+        currentIndex = (currentIndex + direction + totalSlides) % totalSlides;
+        document.getElementById('sliderWrapper').style.transform = `translateX(${currentIndex * 100}%)`;
+        document.getElementById('slideNum').innerText = currentIndex + 1;
+    }
+
+    function sendWish() {
+        const wish = document.getElementById('wishInput').value.trim();
+        if (wish) {
+            alert('وصلتني أمنيتك يا روحي.. وهتتنفذ فوراً إن شاء الله! ❤️✨');
+            document.getElementById('wishInput').value = '';
+            safeConfetti();
+        } else {
+            alert('اكتبي الأمنية الأول يا روحي ❤️');
+        }
+    }
+
+    function sendWhatsAppMessage() {
+        const msg = document.getElementById('customMessage').value.trim();
+        if (msg) {
+            window.open(`https://wa.me/201027431616?text=${encodeURIComponent(msg)}`, '_blank');
+        } else {
+            alert('اكتبي الرسالة الأول يا حبيبتي ❤️');
+        }
+    }
+
+    function spinRealWheel() {
+        const wheel = document.getElementById('wheel');
+        const places = ["سينما 🎬", "كورنيش النيل 🌊", "عشاء رومانسي 🍽️", "فسحة وملاهي 🎡"];
+        const randomDeg = 1440 + Math.floor(Math.random() * 360);
+        wheel.style.transform = `rotate(${randomDeg}deg)`;
+        
+        setTimeout(() => {
+            const selected = places[Math.floor(Math.random() * places.length)];
+            document.getElementById('wheelResult').innerText = "خروجتنا الجاية: " + selected + " 🎉❤️";
+            safeConfetti();
+        }, 4000);
+    }
+
+    function answerQuiz() {
+        document.getElementById('quizResponse').innerText = "وأنا بحب كل حاجة فيكي وبموت فيكي يا أطيب رورو! ❤️👑";
+        safeConfetti();
+    }
+
+    function chillMode() {
+        alert("تم تفعيل وضع الروقان! خدي نفس عميق وفكري في أحلى يوم هيجمعنا قريب سوى 🌊☕💖");
+    }
+
     const startDate = new Date("2026-01-31T00:00:00");
 
     function startTimer() {
@@ -657,68 +701,27 @@
 
             if (days < 0) {
                 months -= 1;
-                const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
-                days += prevMonth.getDate();
+                const prevMonthDays = new Date(now.getFullYear(), now.getMonth(), 0).getDate();
+                days += prevMonthDays;
             }
+
             if (months < 0) {
                 years -= 1;
                 months += 12;
             }
 
-            const diff = now - startDate;
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();
+
             document.getElementById('years').innerText = years;
             document.getElementById('months').innerText = months;
             document.getElementById('days').innerText = days;
-            document.getElementById('hours').innerText = Math.floor((diff / (1000 * 60 * 60)) % 24);
-            document.getElementById('minutes').innerText = Math.floor((diff / 1000 / 60) % 60);
-            document.getElementById('seconds').innerText = Math.floor((diff / 1000) % 60);
+            document.getElementById('hours').innerText = hours;
+            document.getElementById('minutes').innerText = minutes;
+            document.getElementById('seconds').innerText = seconds;
         }, 1000);
     }
-
-    function sendWhatsAppMessage() {
-        const msg = document.getElementById('customMessage').value.trim();
-        if(!msg) return alert("اكتبي رسالة الأول يا روحي! ❤️");
-        window.open(`https://wa.me/201229144372?text=${encodeURIComponent("رسالة من رورو: " + msg)}`, '_blank');
-    }
-
-    function sendWish() {
-        const wish = document.getElementById('wishInput').value.trim();
-        if(!wish) return alert("اكتبي أمنيتك الأول يا ملكتي! ✨");
-        window.open(`https://wa.me/201229144372?text=${encodeURIComponent("✨ أمنية ملكية من رورو: " + wish)}`, '_blank');
-    }
-
-    let wheelRotation = 0;
-    function spinRealWheel() {
-        const wheel = document.getElementById('wheel');
-        const options = ["عشاء روماني 🍕", "سينما وفيلم حلو 🎬", "فسحة بالليل ونسكافيه ☕", "تمشية ع البحر 🌊"];
-        const randomIndex = Math.floor(Math.random() * options.length);
-        wheelRotation += 1440 + (randomIndex * 90) + 45;
-        wheel.style.transform = `rotate(${wheelRotation}deg)`;
-        setTimeout(() => {
-            document.getElementById('wheelResult').innerText = "النتيجة: " + options[randomIndex];
-            safeConfetti();
-        }, 4000);
-    }
-
-    function answerQuiz() {
-        document.getElementById('quizResponse').innerText = "إجابة جميلة يا روحي! ❤️✨";
-        safeConfetti();
-    }
-
-    function moveSlide(direction) {
-        currentIndex += direction;
-        if (currentIndex < 0) { currentIndex = totalSlides - 1; }
-        else if (currentIndex >= totalSlides) { currentIndex = 0; }
-        document.getElementById('sliderWrapper').style.transform = `translateX(${currentIndex * 100}%)`;
-        document.getElementById('slideNum').innerText = currentIndex + 1;
-    }
-
-    function chillMode() {
-        document.body.style.backgroundImage = "radial-gradient(circle at center, #0083b0 0%, #0f051d 100%)";
-        safeConfetti();
-        alert('أنا وانت ومعانا كوكتيل ونسيم البحر الهادي ونتمشي علي الكورنيش.. بحبك يا رورو! 🌊🍹❤️');
-    }
 </script>
-
 </body>
 </html>
