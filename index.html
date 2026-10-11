@@ -2,265 +2,738 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#12051f">
     <title>مملكة عمر و رورو 💍🌸</title>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Aref+Ruqaa:wght@400;700&family=Great+Vibes&family=Lalezar&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    
+
     <style>
         :root {
-            --bg-color: #0f051d;
-            --card-bg: #1c0b2b;
-            --accent-pink: #ff2a75;
-            --gold: #ffb703;
-            --text-color: #ffffff;
+            --bg-1: #12051f;
+            --bg-2: #2a0a3d;
+            --bg-3: #4a0e3f;
+            --glass: rgba(255, 255, 255, 0.06);
+            --glass-strong: rgba(28, 8, 46, 0.72);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --pink: #ff3d81;
+            --pink-soft: #ff8fb3;
+            --rose: #ffc2d6;
+            --gold: #ffcf5c;
+            --gold-deep: #e8a317;
+            --violet: #9b5cff;
+            --text: #fff7fb;
+            --muted: #d9c4d6;
+            --radius: 22px;
         }
 
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        html, body { height: 100%; }
 
         body {
             font-family: 'Tajawal', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            color: var(--text);
             margin: 0;
-            padding: 0 0 70px 0;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
+            padding: 0 0 90px 0;
             min-height: 100vh;
-            background-image: radial-gradient(circle at center, #2c0938 0%, #0f051d 100%);
-            transition: background 0.5s ease;
             overflow-x: hidden;
+            background: var(--bg-1);
         }
 
+        /* ===== الخلفية المتحركة ===== */
+        .bg-gradient {
+            position: fixed; inset: 0; z-index: 0;
+            background:
+                radial-gradient(60% 50% at 20% 15%, rgba(255, 61, 129, 0.35) 0%, transparent 70%),
+                radial-gradient(55% 45% at 85% 30%, rgba(155, 92, 255, 0.30) 0%, transparent 70%),
+                radial-gradient(70% 60% at 50% 100%, rgba(255, 207, 92, 0.18) 0%, transparent 70%),
+                linear-gradient(160deg, var(--bg-1) 0%, var(--bg-2) 55%, var(--bg-3) 100%);
+            animation: bgShift 18s ease-in-out infinite alternate;
+            background-size: 140% 140%;
+        }
+        @keyframes bgShift {
+            0%   { background-position: 0% 0%, 100% 0%, 50% 100%, 0 0; }
+            100% { background-position: 30% 20%, 70% 30%, 40% 80%, 0 0; }
+        }
+
+        .stars {
+            position: fixed; inset: 0; z-index: 0; pointer-events: none;
+            background-image:
+                radial-gradient(1.5px 1.5px at 10% 20%, #fff 50%, transparent 51%),
+                radial-gradient(1px 1px at 30% 70%, #fff 50%, transparent 51%),
+                radial-gradient(1.5px 1.5px at 55% 35%, #ffd6e6 50%, transparent 51%),
+                radial-gradient(1px 1px at 75% 85%, #fff 50%, transparent 51%),
+                radial-gradient(1.5px 1.5px at 90% 15%, #ffe9b0 50%, transparent 51%),
+                radial-gradient(1px 1px at 65% 55%, #fff 50%, transparent 51%),
+                radial-gradient(1px 1px at 20% 90%, #fff 50%, transparent 51%),
+                radial-gradient(1.5px 1.5px at 45% 8%, #fff 50%, transparent 51%);
+            opacity: 0.55;
+            animation: twinkle 4s ease-in-out infinite alternate;
+        }
+        @keyframes twinkle { from { opacity: 0.25; } to { opacity: 0.7; } }
+
+        /* ===== الأسامي اللي بتقع ===== */
+        #namesRain {
+            position: fixed; inset: 0; z-index: 1;
+            pointer-events: none; overflow: hidden;
+        }
+        .falling-name {
+            position: absolute; top: -80px;
+            white-space: nowrap;
+            will-change: transform, opacity;
+            animation-name: fall;
+            animation-timing-function: linear;
+            animation-fill-mode: forwards;
+            user-select: none;
+        }
+        .falling-name.ar { font-family: 'Aref Ruqaa', serif; font-weight: 700; }
+        .falling-name.en { font-family: 'Great Vibes', cursive; }
+        .falling-name.pink { color: var(--pink-soft); text-shadow: 0 0 14px rgba(255, 61, 129, 0.8); }
+        .falling-name.gold { color: var(--gold); text-shadow: 0 0 14px rgba(255, 207, 92, 0.7); }
+        .falling-name.white { color: #fff; text-shadow: 0 0 12px rgba(255, 255, 255, 0.6); }
+        .falling-name.violet { color: #c9a6ff; text-shadow: 0 0 14px rgba(155, 92, 255, 0.8); }
+
+        @keyframes fall {
+            0%   { transform: translate3d(0, 0, 0) rotate(var(--rot-start)); opacity: 0; }
+            8%   { opacity: var(--op); }
+            85%  { opacity: var(--op); }
+            100% { transform: translate3d(var(--drift), 112vh, 0) rotate(var(--rot-end)); opacity: 0; }
+        }
+
+        /* ===== الحاوية ===== */
         .container {
-            width: 100%;
-            max-width: 430px;
-            background: var(--card-bg);
+            position: relative; z-index: 2;
+            width: 100%; max-width: 440px;
+            margin: 0 auto;
             min-height: 100vh;
-            padding: 20px 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            border-left: 1px solid rgba(255, 42, 117, 0.2);
-            border-right: 1px solid rgba(255, 42, 117, 0.2);
+            padding: 22px 16px 30px;
             text-align: center;
-            position: relative;
         }
 
-        .screen { display: none; animation: fadeIn 0.4s ease; }
-        .screen.active { display: block; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .screen { display: none; }
+        .screen.active { display: block; animation: screenIn 0.5s cubic-bezier(.2,.8,.2,1); }
+        @keyframes screenIn {
+            from { opacity: 0; transform: translateY(14px) scale(0.98); }
+            to   { opacity: 1; transform: none; }
         }
 
-        /* Nav Bottom Bar */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            max-width: 430px;
-            background: rgba(15, 5, 29, 0.95);
-            backdrop-filter: blur(10px);
-            border-top: 1px solid rgba(255, 42, 117, 0.3);
-            display: flex;
-            justify-content: space-around;
-            padding: 10px 0;
-            z-index: 900;
+        /* ===== العناوين ===== */
+        .page-title {
+            font-family: 'Lalezar', 'Tajawal', sans-serif;
+            font-size: 26px; font-weight: 400;
+            margin: 6px 0 18px;
+            background: linear-gradient(90deg, var(--gold), var(--pink-soft), var(--gold));
+            background-size: 200% auto;
+            -webkit-background-clip: text; background-clip: text;
+            color: transparent;
+            animation: shine 5s linear infinite;
+        }
+        @keyframes shine { to { background-position: 200% center; } }
+
+        .section-label {
+            display: flex; align-items: center; gap: 8px;
+            font-weight: 800; font-size: 15px; color: var(--gold);
+            margin: 22px 4px 10px;
+        }
+        .section-label::after {
+            content: ''; flex: 1; height: 1px;
+            background: linear-gradient(to left, transparent, rgba(255, 207, 92, 0.5));
         }
 
-        .nav-item {
-            color: #aaa;
-            font-size: 11px;
-            text-decoration: none;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 3px;
-            cursor: pointer;
-            transition: 0.3s;
+        /* ===== شاشة الدخول ===== */
+        #lockScreen { padding-top: 6vh; }
+        .lock-card {
+            background: var(--glass-strong);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 34px 22px 26px;
+            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255,255,255,0.08);
         }
-
-        .nav-item.active {
-            color: var(--accent-pink);
-            font-weight: bold;
-        }
-
-        .nav-item span { font-size: 18px; }
-
-        .icon-heart {
-            width: 60px; height: 60px;
-            background: var(--accent-pink);
+        .ring-orb {
+            width: 96px; height: 96px; margin: 0 auto 18px;
             border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            margin: 0 auto 15px; font-size: 28px;
-            box-shadow: 0 0 20px var(--accent-pink);
+            display: grid; place-items: center;
+            font-size: 42px;
+            background: radial-gradient(circle at 30% 30%, #ff7aa8, var(--pink) 55%, #b3134f);
+            box-shadow: 0 0 0 8px rgba(255, 61, 129, 0.15), 0 0 40px rgba(255, 61, 129, 0.7);
+            animation: heartbeat 1.6s ease-in-out infinite;
         }
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            15% { transform: scale(1.08); }
+            30% { transform: scale(1); }
+            45% { transform: scale(1.06); }
+        }
+        .couple-names {
+            font-family: 'Great Vibes', cursive;
+            font-size: 50px; line-height: 1.1;
+            margin: 0;
+            direction: ltr;
+            color: #fff;
+            text-shadow: 0 0 20px rgba(255, 61, 129, 0.8);
+        }
+        .couple-names .amp { color: var(--gold); font-size: 40px; padding: 0 6px; }
+        .couple-names-ar {
+            font-family: 'Aref Ruqaa', serif; font-weight: 700;
+            font-size: 30px; margin: 4px 0 6px;
+            color: var(--gold);
+            text-shadow: 0 0 16px rgba(255, 207, 92, 0.5);
+        }
+        .lock-hint { font-size: 13px; color: var(--muted); line-height: 1.8; margin: 10px 0 20px; }
 
+        /* ===== الحقول ===== */
         input[type="password"], input[type="text"], textarea {
-            width: 90%; padding: 12px; border-radius: 12px;
-            border: 1px solid var(--accent-pink); background: #0f051d;
-            color: #fff; text-align: center; font-size: 14px; margin-bottom: 12px; outline: none;
+            width: 100%; padding: 14px 16px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 143, 179, 0.35);
+            background: rgba(10, 2, 20, 0.55);
+            color: #fff; text-align: center; font-size: 15px;
+            margin-bottom: 12px; outline: none;
             font-family: 'Tajawal', sans-serif;
+            transition: border-color .25s, box-shadow .25s;
         }
+        input:focus, textarea:focus {
+            border-color: var(--pink);
+            box-shadow: 0 0 0 4px rgba(255, 61, 129, 0.18);
+        }
+        input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.35); }
+        textarea { height: 100px; resize: none; text-align: right; line-height: 1.7; }
 
-        textarea { height: 80px; resize: none; text-align: right; }
-
+        /* ===== الأزرار ===== */
         .btn-primary {
-            background: linear-gradient(45deg, #ff2a75, #ff6b8b);
-            color: white; border: none; padding: 12px 24px;
-            border-radius: 20px; font-size: 15px; font-weight: bold;
-            cursor: pointer; width: 90%; box-shadow: 0 4px 15px rgba(255, 42, 117, 0.4);
-            margin-bottom: 10px; transition: 0.3s;
+            position: relative; overflow: hidden;
+            display: block; width: 100%;
+            background: linear-gradient(135deg, #ff3d81, #ff7a9e);
+            color: #fff; border: none;
+            padding: 14px 22px; border-radius: 16px;
+            font-size: 15px; font-weight: 800;
+            font-family: 'Tajawal', sans-serif;
+            cursor: pointer;
+            box-shadow: 0 8px 22px rgba(255, 61, 129, 0.35);
+            transition: transform .15s ease, box-shadow .25s ease, filter .25s;
         }
-
-        .btn-whatsapp {
-            background: linear-gradient(45deg, #25D366, #128C7E);
-            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+        .btn-primary::after {
+            content: ''; position: absolute; top: 0; left: -60%;
+            width: 40%; height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(255,255,255,0.35), transparent);
+            transform: skewX(-20deg);
+            transition: left .6s ease;
         }
+        .btn-primary:hover::after { left: 120%; }
+        .btn-primary:hover { filter: brightness(1.08); }
+        .btn-primary:active { transform: scale(0.97); }
 
-        .btn-call-direct {
-            background: linear-gradient(45deg, #00c6ff, #0072ff);
-            box-shadow: 0 4px 15px rgba(0, 198, 255, 0.4);
-        }
+        .btn-whatsapp { background: linear-gradient(135deg, #25D366, #128C7E); box-shadow: 0 8px 22px rgba(37, 211, 102, 0.3); }
+        .btn-call-direct { background: linear-gradient(135deg, #3fc5ff, #2d6bff); box-shadow: 0 8px 22px rgba(45, 107, 255, 0.35); }
+        .btn-violet { background: linear-gradient(135deg, #9b5cff, #5b2bd6); box-shadow: 0 8px 22px rgba(155, 92, 255, 0.35); }
+        .btn-sea { background: linear-gradient(135deg, #2ec5e8, #0a7fb0); box-shadow: 0 8px 22px rgba(46, 197, 232, 0.3); }
+        .btn-dark-gold { background: #1a0629; color: var(--gold); border: 1px solid var(--gold); box-shadow: 0 6px 18px rgba(0,0,0,0.35); }
 
+        .btn-row { display: flex; gap: 10px; }
+        .btn-row .btn-primary { flex: 1; }
+        .btn-accept { background: linear-gradient(135deg, #34d36b, #1a9e48); box-shadow: 0 8px 20px rgba(52, 211, 107, 0.3); }
+        .btn-reject { background: linear-gradient(135deg, #ff5a6a, #c81e35); box-shadow: 0 8px 20px rgba(255, 90, 106, 0.3); }
+
+        /* ===== الكروت ===== */
         .feature-card {
-            background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 42, 117, 0.3);
-            border-radius: 16px; padding: 15px; margin-bottom: 15px; text-align: center;
+            position: relative;
+            background: var(--glass-strong);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            padding: 18px 16px;
+            margin-bottom: 14px;
+            text-align: center;
+            backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255,255,255,0.06);
         }
+        .card-head {
+            display: flex; align-items: center; gap: 10px;
+            text-align: right; margin-bottom: 10px;
+        }
+        .card-icon {
+            flex: 0 0 auto;
+            width: 40px; height: 40px; border-radius: 12px;
+            display: grid; place-items: center; font-size: 20px;
+            background: linear-gradient(135deg, rgba(255, 61, 129, 0.25), rgba(155, 92, 255, 0.25));
+            border: 1px solid rgba(255,255,255,0.12);
+        }
+        .card-title { font-weight: 800; font-size: 15px; color: #fff; }
+        .card-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
 
+        /* ===== الكارت الذهبي ===== */
         .vip-card-box {
-            background: linear-gradient(135deg, #ffd700, #b8860b, #d4af37);
-            color: #1a002c; border-radius: 18px; padding: 18px; text-align: center;
-            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.5); margin-bottom: 15px;
-            border: 2px solid #fff;
+            position: relative; overflow: hidden;
+            background: linear-gradient(135deg, #fff1b8 0%, #ffcf5c 30%, #d99a14 65%, #ffe08a 100%);
+            color: #2a0a1f;
+            border-radius: 24px; padding: 20px 18px;
+            text-align: right;
+            box-shadow: 0 14px 35px rgba(232, 163, 23, 0.45);
+            margin-bottom: 14px;
+            border: 1px solid rgba(255,255,255,0.7);
         }
+        .vip-card-box::before {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,0.55) 45%, transparent 60%);
+            transform: translateX(-100%);
+            animation: cardShine 4.5s ease-in-out infinite;
+        }
+        @keyframes cardShine { 0%, 60% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+        .vip-top { display: flex; justify-content: space-between; align-items: center; position: relative; }
+        .vip-label { font-size: 11px; font-weight: 800; letter-spacing: 3px; direction: ltr; }
+        .vip-chip {
+            width: 38px; height: 28px; border-radius: 6px;
+            background: linear-gradient(135deg, #f7e7a1, #b8860b);
+            border: 1px solid rgba(0,0,0,0.2);
+        }
+        .vip-name { position: relative; font-family: 'Aref Ruqaa', serif; font-weight: 700; font-size: 26px; margin: 12px 0 2px; }
+        .vip-name-en { position: relative; font-family: 'Great Vibes', cursive; font-size: 22px; direction: ltr; text-align: left; margin-bottom: 12px; color: #5a1238; }
+        .vip-card-box .btn-primary { position: relative; }
 
-        .counter-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 15px 0; }
-        .counter-card { background: rgba(255, 255, 255, 0.05); padding: 10px 5px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1); }
-        .counter-card span { display: block; font-size: 18px; font-weight: bold; color: var(--accent-pink); }
-        .counter-card label { font-size: 11px; color: #aaa; }
+        /* ===== عداد الحب ===== */
+        .counter-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .counter-card {
+            background: var(--glass-strong);
+            padding: 14px 6px 10px; border-radius: 18px;
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+        }
+        .counter-card span {
+            display: block; font-size: 24px; font-weight: 800;
+            background: linear-gradient(180deg, #fff, var(--pink-soft));
+            -webkit-background-clip: text; background-clip: text; color: transparent;
+            font-variant-numeric: tabular-nums;
+        }
+        .counter-card label { font-size: 11px; color: var(--muted); }
 
-        .timeline { position: relative; padding-right: 20px; margin: 20px 0; border-right: 2px solid var(--accent-pink); }
-        .timeline-item { position: relative; margin-bottom: 20px; padding-right: 15px; text-align: right; }
+        /* ===== مشغل الموسيقى ===== */
+        .music-card { display: flex; align-items: center; gap: 12px; text-align: right; }
+        .vinyl {
+            flex: 0 0 auto; width: 54px; height: 54px; border-radius: 50%;
+            background: repeating-radial-gradient(circle, #1a1a1a 0 2px, #2b2b2b 2px 4px);
+            border: 2px solid rgba(255,255,255,0.15);
+            position: relative;
+            animation: spin 6s linear infinite;
+            animation-play-state: paused;
+        }
+        .vinyl::after {
+            content: '❤'; position: absolute; inset: 16px; border-radius: 50%;
+            background: var(--pink); display: grid; place-items: center;
+            font-size: 11px; color: #fff;
+        }
+        .vinyl.playing { animation-play-state: running; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .music-body { flex: 1; min-width: 0; }
+        audio { width: 100%; height: 36px; margin-top: 6px; border-radius: 12px; }
+
+        /* ===== الخط الزمني ===== */
+        .timeline { position: relative; padding-right: 26px; margin: 10px 0 20px; }
+        .timeline::before {
+            content: ''; position: absolute; right: 8px; top: 6px; bottom: 6px; width: 2px;
+            background: linear-gradient(to bottom, var(--gold), var(--pink), var(--violet));
+            border-radius: 2px;
+        }
+        .timeline-item {
+            position: relative; margin-bottom: 12px; text-align: right;
+            background: var(--glass-strong);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px; padding: 12px 14px;
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+        }
         .timeline-item::before {
-            content: ''; position: absolute; right: -26px; top: 4px;
-            width: 10px; height: 10px; background: var(--gold); border-radius: 50%;
-            box-shadow: 0 0 8px var(--gold);
+            content: ''; position: absolute; right: -24px; top: 16px;
+            width: 12px; height: 12px; background: var(--gold); border-radius: 50%;
+            box-shadow: 0 0 0 4px rgba(255, 207, 92, 0.2), 0 0 12px var(--gold);
         }
-        .timeline-date { color: var(--gold); font-size: 13px; font-weight: bold; }
-        .timeline-desc { font-size: 14px; margin-top: 3px; }
+        .timeline-date { color: var(--gold); font-size: 13px; font-weight: 800; direction: ltr; text-align: right; }
+        .timeline-desc { font-size: 14px; margin-top: 4px; line-height: 1.6; }
 
-        .slider-container { position: relative; width: 100%; margin: 15px 0; overflow: hidden; border-radius: 18px; border: 1px solid rgba(255, 42, 117, 0.4); background: #000; }
-        .slider-wrapper { display: flex; transition: transform 0.4s ease-in-out; width: 100%; }
-        .slide-box { min-width: 100%; height: 350px; display: flex; align-items: center; justify-content: center; background: #0d041a; }
+        /* ===== السلايدر ===== */
+        .slider-container {
+            position: relative; width: 100%; margin: 6px 0 8px;
+            overflow: hidden; border-radius: 24px;
+            border: 1px solid rgba(255, 143, 179, 0.35);
+            background: #0b0314;
+            box-shadow: 0 18px 40px rgba(0,0,0,0.45);
+        }
+        .slider-wrapper { display: flex; transition: transform 0.5s cubic-bezier(.2,.8,.2,1); width: 100%; }
+        .slide-box { min-width: 100%; height: 380px; display: flex; align-items: center; justify-content: center; background: #0b0314; }
         .slide-img { max-width: 100%; max-height: 100%; object-fit: contain; }
-        .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(15, 5, 29, 0.8); color: var(--gold); border: 1px solid var(--accent-pink); width: 36px; height: 36px; border-radius: 50%; font-size: 18px; cursor: pointer; z-index: 5; }
-        .prev-btn { right: 8px; } .next-btn { left: 8px; }
+        .slider-btn {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            background: rgba(18, 5, 31, 0.6);
+            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            color: #fff; border: 1px solid rgba(255,255,255,0.25);
+            width: 40px; height: 40px; border-radius: 50%;
+            font-size: 18px; cursor: pointer; z-index: 5;
+        }
+        .prev-btn { right: 10px; } .next-btn { left: 10px; }
+        .slide-counter {
+            display: inline-block; font-size: 12px; color: var(--gold);
+            background: rgba(255, 207, 92, 0.1); border: 1px solid rgba(255, 207, 92, 0.3);
+            padding: 4px 12px; border-radius: 999px;
+        }
 
-        .wheel-box { position: relative; width: 170px; height: 170px; margin: 15px auto; }
+        /* ===== العجلة ===== */
+        .wheel-box { position: relative; width: 210px; height: 210px; margin: 10px auto 14px; }
         .wheel {
+            position: relative;
             width: 100%; height: 100%; border-radius: 50%;
-            border: 4px solid var(--gold);
-            background: conic-gradient(#ff2a75 0 90deg, #8a2be2 90deg 180deg, #ffb703 180deg 270deg, #ff6b8b 270deg 360deg);
+            border: 5px solid var(--gold);
+            background: conic-gradient(#ff3d81 0 90deg, #9b5cff 90deg 180deg, #e8a317 180deg 270deg, #ff7a9e 270deg 360deg);
             transition: transform 4s cubic-bezier(0.15, 0.99, 0.18, 1);
+            box-shadow: 0 0 30px rgba(255, 207, 92, 0.35), inset 0 0 20px rgba(0,0,0,0.3);
+        }
+        .wheel-label {
+            position: absolute; top: 50%; left: 50%;
+            font-size: 22px;
+            transform-origin: 0 0;
+        }
+        .wheel-center {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 44px; height: 44px; border-radius: 50%;
+            background: #1a0629; border: 3px solid var(--gold);
+            display: grid; place-items: center; font-size: 18px; z-index: 3;
         }
         .wheel-pointer {
-            position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
+            position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
             width: 0; height: 0;
-            border-left: 10px solid transparent; border-right: 10px solid transparent; border-top: 15px solid #fff;
+            border-left: 13px solid transparent; border-right: 13px solid transparent; border-top: 22px solid #fff;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
             z-index: 10;
         }
 
+        /* ===== الاختيارات ===== */
         .quiz-option-btn {
-            width: 100%; padding: 10px; margin: 6px 0;
-            background: rgba(255,255,255,0.06); border: 1px solid rgba(255,42,117,0.3);
-            color: #fff; border-radius: 12px; font-size: 13px; cursor: pointer; transition: 0.3s;
+            width: 100%; padding: 12px; margin: 6px 0;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255, 143, 179, 0.25);
+            color: #fff; border-radius: 14px; font-size: 14px;
+            font-family: 'Tajawal', sans-serif;
+            cursor: pointer; transition: background .2s, border-color .2s, transform .15s;
         }
+        .quiz-option-btn:hover { background: rgba(255, 61, 129, 0.15); border-color: var(--pink); }
+        .quiz-option-btn:active { transform: scale(0.98); }
+        .result-text { font-size: 13px; color: var(--gold); font-weight: 800; min-height: 20px; margin: 8px 0 0; }
 
+        /* ===== البطارية ===== */
+        .battery-wrap { display: flex; align-items: center; gap: 4px; margin: 14px 0; direction: ltr; }
         .battery-container {
-            width: 100%;
-            height: 26px;
-            background: rgba(255, 255, 255, 0.08);
-            border: 2px solid #ffffff;
-            border-radius: 14px;
-            padding: 3px;
-            margin: 12px 0;
+            flex: 1; height: 34px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 2px solid rgba(255,255,255,0.85);
+            border-radius: 12px; padding: 4px;
             position: relative;
-            box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
         }
-
+        .battery-tip { width: 6px; height: 14px; background: rgba(255,255,255,0.85); border-radius: 0 4px 4px 0; }
         .battery-fill {
-            height: 100%;
-            width: 0%;
-            background: #2ea043;
-            border-radius: 10px;
-            transition: width 0.3s ease-in-out;
-            box-shadow: 0 0 10px #2ea043;
+            height: 100%; width: 0%;
+            background: linear-gradient(90deg, #ff3d81, #ffcf5c, #34d36b);
+            background-size: 300% 100%;
+            border-radius: 7px;
+            transition: width 0.4s ease, background-position 0.4s ease;
+            box-shadow: 0 0 14px rgba(52, 211, 107, 0.6);
+        }
+        .battery-pct {
+            position: absolute; inset: 0; display: grid; place-items: center;
+            font-weight: 800; font-size: 13px; color: #fff;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.7);
         }
 
+        /* ===== قائمة الأسباب ===== */
+        .reasons { max-height: 190px; overflow-y: auto; text-align: right; margin-top: 4px; padding-left: 4px; }
+        .reason {
+            display: flex; gap: 10px; align-items: center;
+            font-size: 13px; padding: 9px 4px;
+            border-bottom: 1px dashed rgba(255,255,255,0.1);
+        }
+        .reason:last-child { border-bottom: none; }
+        .reason b {
+            flex: 0 0 auto; width: 26px; height: 26px; border-radius: 50%;
+            display: grid; place-items: center; font-size: 12px;
+            background: rgba(255, 61, 129, 0.2); color: var(--pink-soft);
+        }
+
+        /* ===== الشريط السفلي ===== */
+        .bottom-nav {
+            position: fixed; bottom: 12px; left: 50%; transform: translateX(-50%);
+            width: calc(100% - 24px); max-width: 416px;
+            background: rgba(18, 5, 31, 0.78);
+            backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+            display: flex; justify-content: space-around;
+            padding: 8px 6px calc(8px + env(safe-area-inset-bottom, 0px));
+            z-index: 900;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+        }
+        .nav-item {
+            flex: 1;
+            color: #b9a4b8; font-size: 11px;
+            display: flex; flex-direction: column; align-items: center; gap: 2px;
+            cursor: pointer; padding: 6px 0; border-radius: 16px;
+            transition: color .25s, background .25s;
+        }
+        .nav-item .nav-emoji { font-size: 20px; transition: transform .25s; }
+        .nav-item.active { color: #fff; font-weight: 800; background: linear-gradient(135deg, rgba(255,61,129,0.35), rgba(155,92,255,0.3)); }
+        .nav-item.active .nav-emoji { transform: translateY(-2px) scale(1.12); }
+
+        /* ===== القلوب الطايرة ===== */
         .floating-heart {
             position: fixed; pointer-events: none; font-size: 24px;
-            animation: floatUp 1.5s linear forwards; z-index: 9999;
+            animation: floatUp 1.5s ease-out forwards; z-index: 9999;
+            transform: translate(-50%, -50%);
         }
         @keyframes floatUp {
-            0% { transform: translateY(0) scale(1); opacity: 1; }
-            100% { transform: translateY(-100px) scale(1.5); opacity: 0; }
+            0%   { transform: translate(-50%, -50%) scale(0.6); opacity: 1; }
+            100% { transform: translate(-50%, -160px) scale(1.5); opacity: 0; }
         }
 
+        /* ===== النوافذ المنبثقة ===== */
         .modal-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.85); z-index: 999;
-            justify-content: center; align-items: center; padding: 15px;
+            display: none; position: fixed; inset: 0;
+            background: rgba(5, 0, 12, 0.7);
+            backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+            z-index: 999;
+            justify-content: center; align-items: center; padding: 16px;
         }
-        .modal-overlay.active { display: flex; }
+        .modal-overlay.active { display: flex; animation: screenIn .3s ease; }
         .modal-box {
-            background: var(--card-bg); border: 2px solid var(--accent-pink);
-            border-radius: 20px; padding: 25px 20px; text-align: center;
-            width: 100%; max-width: 320px; box-shadow: 0 0 25px rgba(255, 42, 117, 0.5);
+            background: linear-gradient(160deg, #2a0a3d, #1a0629);
+            border: 1px solid rgba(255, 143, 179, 0.4);
+            border-radius: 26px; padding: 28px 20px 20px;
+            text-align: center; width: 100%; max-width: 340px;
+            box-shadow: 0 0 40px rgba(255, 61, 129, 0.35);
+        }
+        .modal-emoji { font-size: 44px; margin-bottom: 6px; }
+        .modal-text { font-size: 15px; line-height: 1.9; color: #fff; margin: 10px 0 18px; white-space: pre-line; }
+
+        /* ===== الجواب (الظرف) ===== */
+        .envelope-wrap { perspective: 900px; margin: 60px auto 4px; width: 230px; cursor: pointer; }
+        .envelope {
+            position: relative; width: 230px; height: 150px;
+            background: linear-gradient(160deg, #ff7aa8, #e0306e);
+            border-radius: 10px;
+            box-shadow: 0 14px 30px rgba(255, 61, 129, 0.35);
+        }
+        .envelope::before {   /* الجزء اللي تحت من الظرف */
+            content: ''; position: absolute; inset: 0; border-radius: 10px; z-index: 3;
+            background:
+                linear-gradient(to top right, #ff5c93 50%, transparent 50.5%) left bottom / 50% 100% no-repeat,
+                linear-gradient(to top left, #ff5c93 50%, transparent 50.5%) right bottom / 50% 100% no-repeat;
+        }
+        .env-flap {
+            position: absolute; top: 0; left: 0; width: 100%; height: 0; z-index: 4;
+            border-left: 115px solid transparent; border-right: 115px solid transparent;
+            border-top: 85px solid #c9245d;
+            transform-origin: top; transition: transform .6s ease .1s, z-index 0s .4s;
+        }
+        .env-seal {
+            position: absolute; top: 62px; left: 50%; transform: translateX(-50%); z-index: 5;
+            width: 40px; height: 40px; border-radius: 50%;
+            background: radial-gradient(circle at 35% 35%, #ffe08a, var(--gold-deep));
+            display: grid; place-items: center; font-size: 18px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.3); transition: opacity .3s;
+        }
+        .env-letter {
+            position: absolute; left: 12px; right: 12px; top: 10px; height: 130px; z-index: 2;
+            background: #fff8ef; border-radius: 6px;
+            transition: transform .7s cubic-bezier(.2,.8,.2,1) .4s;
+            display: grid; place-items: center;
+            font-family: 'Aref Ruqaa', serif; color: #b3134f; font-size: 22px;
+        }
+        .envelope.open .env-flap { transform: rotateX(180deg); z-index: 1; }
+        .envelope.open .env-seal { opacity: 0; }
+        .envelope.open .env-letter { transform: translateY(-70px); }
+        .letter-paper {
+            display: none; text-align: right; margin-top: 14px;
+            background: #fff8ef; color: #3a0b25;
+            border-radius: 16px; padding: 22px 18px;
+            font-family: 'Aref Ruqaa', serif; font-size: 18px; line-height: 2;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            background-image: repeating-linear-gradient(transparent 0 35px, rgba(179, 19, 79, 0.12) 35px 36px);
+        }
+        .letter-paper.show { display: block; animation: screenIn .6s ease; }
+        .letter-sign { text-align: left; font-family: 'Great Vibes', cursive; font-size: 28px; color: #b3134f; direction: ltr; }
+
+        /* ===== افتحي لما ===== */
+        .open-when-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .ow-btn {
+            background: linear-gradient(160deg, rgba(255, 61, 129, 0.18), rgba(155, 92, 255, 0.18));
+            border: 1px solid rgba(255, 143, 179, 0.3);
+            border-radius: 16px; padding: 14px 8px;
+            color: #fff; font-family: 'Tajawal', sans-serif; font-size: 13px; font-weight: 700;
+            cursor: pointer; transition: transform .15s, background .2s;
+        }
+        .ow-btn span { display: block; font-size: 24px; margin-bottom: 4px; }
+        .ow-btn:active { transform: scale(0.96); }
+        .ow-btn:hover { background: linear-gradient(160deg, rgba(255, 61, 129, 0.3), rgba(155, 92, 255, 0.3)); }
+
+        /* ===== الحضن ===== */
+        .hug-btn {
+            position: relative; width: 130px; height: 130px; margin: 8px auto 6px;
+            border-radius: 50%; border: none; cursor: pointer;
+            background: radial-gradient(circle at 35% 30%, #ff8fb3, var(--pink) 60%, #a10f47);
+            box-shadow: 0 0 0 10px rgba(255, 61, 129, 0.12), 0 0 35px rgba(255, 61, 129, 0.6);
+            font-size: 52px; display: grid; place-items: center;
+            user-select: none; -webkit-user-select: none; touch-action: none;
+            transition: transform .2s;
+        }
+        .hug-btn.holding { animation: heartbeat .8s ease-in-out infinite; }
+        .hug-ring { position: absolute; inset: -8px; transform: rotate(-90deg); pointer-events: none; }
+        .hug-ring circle { fill: none; stroke: var(--gold); stroke-width: 5; stroke-linecap: round; stroke-dasharray: 440; stroke-dashoffset: 440; transition: stroke-dashoffset .1s linear; }
+
+        /* ===== الكوبونات ===== */
+        .coupon {
+            position: relative; display: flex; align-items: center; gap: 12px;
+            background: linear-gradient(135deg, #fff1b8, #ffcf5c);
+            color: #3a0b25; border-radius: 16px; padding: 14px 16px;
+            margin-bottom: 10px; text-align: right;
+            border: 2px dashed rgba(58, 11, 37, 0.35);
+        }
+        .coupon::before, .coupon::after {
+            content: ''; position: absolute; top: 50%; width: 18px; height: 18px; border-radius: 50%;
+            background: #1f0833; transform: translateY(-50%);
+        }
+        .coupon::before { right: -10px; } .coupon::after { left: -10px; }
+        .coupon-emoji { font-size: 28px; }
+        .coupon-body { flex: 1; }
+        .coupon-title { font-weight: 800; font-size: 14px; }
+        .coupon-sub { font-size: 11px; opacity: .75; }
+        .coupon button {
+            background: #3a0b25; color: var(--gold); border: none; border-radius: 10px;
+            padding: 8px 12px; font-family: 'Tajawal', sans-serif; font-weight: 800; font-size: 12px; cursor: pointer;
+        }
+        .coupon.used { filter: grayscale(0.8); opacity: .6; }
+        .coupon.used button { pointer-events: none; }
+
+        /* ===== الوعود ===== */
+        .promise {
+            display: flex; gap: 10px; align-items: flex-start; text-align: right;
+            padding: 10px 2px; font-size: 14px; line-height: 1.7;
+            border-bottom: 1px dashed rgba(255,255,255,0.1);
+        }
+        .promise:last-child { border-bottom: none; }
+        .promise i { font-style: normal; color: var(--gold); }
+
+        .big-quote {
+            font-family: 'Aref Ruqaa', serif; font-size: 21px; line-height: 1.9;
+            color: #fff; min-height: 80px; margin: 6px 0 14px;
+            display: grid; place-items: center;
+        }
+
+        /* ===== صفحة الخواتم ===== */
+        .rings-hero { padding: 6px 0 4px; }
+        .rings-row { display: flex; justify-content: center; gap: 10px; margin: 6px 0 4px; direction: rtl; }
+        .ring-item { text-align: center; opacity: 0; transform: translateY(18px) scale(0.6); }
+        #ringsTab.active .ring-item { animation: ringPop .6s cubic-bezier(.2,1.4,.4,1) forwards; }
+        #ringsTab.active .ring-item:nth-child(1) { animation-delay: .2s; }
+        #ringsTab.active .ring-item:nth-child(2) { animation-delay: .6s; }
+        #ringsTab.active .ring-item:nth-child(3) { animation-delay: 1s; }
+        #ringsTab.active .ring-item:nth-child(4) { animation-delay: 1.4s; }
+        @keyframes ringPop { to { opacity: 1; transform: none; } }
+        .ring-circle {
+            width: 62px; height: 62px; border-radius: 50%;
+            display: grid; place-items: center; font-size: 30px;
+            background: radial-gradient(circle at 35% 30%, rgba(255,255,255,0.25), rgba(255, 207, 92, 0.15));
+            border: 2px solid var(--gold);
+            box-shadow: 0 0 18px rgba(255, 207, 92, 0.45);
+        }
+        .ring-cap { font-size: 11px; color: var(--gold); margin-top: 6px; font-weight: 700; }
+        .rings-title {
+            font-family: 'Aref Ruqaa', serif; font-weight: 700; font-size: 30px;
+            margin: 14px 0 2px; color: #fff;
+            text-shadow: 0 0 18px rgba(255, 61, 129, 0.7);
+        }
+        .rings-title-en { font-family: 'Great Vibes', cursive; font-size: 28px; color: var(--gold); direction: ltr; margin: 0 0 6px; }
+
+        .video-frame {
+            position: relative; padding: 6px; border-radius: 26px; margin: 4px 0 14px;
+            background: linear-gradient(135deg, var(--gold), var(--pink), var(--violet), var(--gold));
+            background-size: 300% 300%;
+            animation: frameGlow 6s ease infinite;
+            box-shadow: 0 18px 45px rgba(255, 61, 129, 0.35);
+        }
+        @keyframes frameGlow { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+        .video-inner {
+            position: relative; width: 100%; aspect-ratio: 9 / 16; max-height: 78vh;
+            border-radius: 20px; overflow: hidden; background: #000;
+        }
+        .video-inner iframe, .voice-inner iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+        .video-loading {
+            position: absolute; inset: 0; display: grid; place-items: center;
+            color: var(--muted); font-size: 13px; pointer-events: none;
+        }
+
+        .voice-card { text-align: right; }
+        .voice-wave { display: flex; align-items: center; justify-content: center; gap: 4px; height: 34px; margin: 4px 0 10px; }
+        .voice-wave i {
+            display: block; width: 4px; border-radius: 4px;
+            background: linear-gradient(to top, var(--pink), var(--gold));
+            animation: wave 1.1s ease-in-out infinite;
+        }
+        @keyframes wave { 0%, 100% { height: 8px; } 50% { height: 30px; } }
+        /* الفويس متسجل mp4 فدرايف بيعرضه بمشغل فيديو، ومحتاج مساحة عشان زرار التشغيل يبان */
+        .voice-inner { position: relative; width: 100%; aspect-ratio: 16 / 9; min-height: 180px; border-radius: 14px; overflow: hidden; background: #000; }
+
+        .open-link { display: inline-block; margin-top: 8px; font-size: 12px; color: var(--pink-soft); }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+            #namesRain { display: none; }
         }
     </style>
 </head>
 <body onclick="createFloatingHeart(event)">
 
+<div class="bg-gradient"></div>
+<div class="stars"></div>
+<div id="namesRain" aria-hidden="true"></div>
+
 <div class="container">
-    
+
     <!-- 1. شاشة الدخول -->
     <div id="lockScreen" class="screen active">
-        <div style="margin-top: 40px;">
-            <div class="icon-heart">💍</div>
-            <h2>مملكة عمر و رورو 🌸</h2>
-            <p style="font-size: 13px; color: #ccc;">ادخلي الباسورد الخاص بعالمنا ❤️<br>(تاريخ ميلاد أجمل رورو في الدنيا)</p>
-            <input type="password" id="passcode" placeholder="25-8-2001">
-            <br>
+        <div class="lock-card">
+            <div class="ring-orb">💍</div>
+            <p class="couple-names">Omar<span class="amp">&amp;</span>Rawan</p>
+            <p class="couple-names-ar">عمر و روان</p>
+            <p class="lock-hint">ادخلي الباسورد الخاص بعالمنا ❤️<br>(تاريخ ميلاد أجمل رورو في الدنيا)</p>
+            <input type="password" id="passcode" placeholder="25-8-2001" onkeydown="if(event.key==='Enter') checkPasscode()">
             <button class="btn-primary" onclick="checkPasscode()">ادخلي عالمنا ❤️</button>
         </div>
     </div>
 
-    <!-- 2. الصفحة الرئيسية (Home Tab) -->
+    <!-- 2. الصفحة الرئيسية -->
     <div id="homeTab" class="screen">
-        <h2 style="color: var(--gold); font-size: 20px; margin-top: 10px;">بحبك يا رورو يا روحي 💖</h2>
+        <h2 class="page-title">بحبك يا رورو يا روحي 💖</h2>
 
-        <!-- مشغل الموسيقى الرئيسية مباشر -->
-        <div class="feature-card" style="border: 1px solid var(--accent-pink); background: rgba(255, 42, 117, 0.1);">
-            <strong style="color: var(--gold);">🎵 الأغنية الرئيسية (إنتي أعظم اختيار):</strong>
-            <p style="font-size: 11px; color: #ccc; margin: 4px 0 8px;">لو لم تبدأ الأغنية تلقائياً، شغليها بضغطة زر من هنا ❤️</p>
-            <audio id="bgMusic" loop controls style="width: 100%; height: 35px; border-radius: 10px;">
-                <source src="https://serv2.albumaty.com/up/upload/JxSKXYc178/Lil-Elmohamedy-Enty-Aazam-Ekhtyar-%D9%84%D9%8A%D9%84-%D8%A7%D9%84%D9%85%D8%AD%D9%85%D8%AF%D9%8A-%D8%A7%D9%86%D8%AA%D9%8A-%D8%A7%D8%B9%D8%B8%D9%85-%D8%A7%D8%AE%D8%AA%D9%8A%D8%A7%D8%B1-(%D8%A7%D9%86%D8%AA%D9%8A-%D8%A7%D9%84%D9%87%D9%88%D8%A7-%D9%88%D9%85%D9%86-%D9%87%D9%88%D8%A7%D9%87-%D9%82%D9%84%D8%A8%D9%8A).mp3" type="audio/mpeg">
-                متصفحك لا يدعم تشغيل الصوت مباشرة.
-            </audio>
+        <div class="feature-card music-card">
+            <div class="vinyl" id="vinyl"></div>
+            <div class="music-body">
+                <div class="card-title">🎵 إنتي أعظم اختيار</div>
+                <div class="card-sub">لو الأغنية مشتغلتش لوحدها، شغليها من هنا ❤️</div>
+                <audio id="bgMusic" loop controls>
+                    <source src="https://serv2.albumaty.com/up/upload/JxSKXYc178/Lil-Elmohamedy-Enty-Aazam-Ekhtyar-%D9%84%D9%8A%D9%84-%D8%A7%D9%84%D9%85%D8%AD%D9%85%D8%AF%D9%8A-%D8%A7%D9%86%D8%AA%D9%8A-%D8%A7%D8%B9%D8%B8%D9%85-%D8%A7%D8%AE%D8%AA%D9%8A%D8%A7%D8%B1-(%D8%A7%D9%86%D8%AA%D9%8A-%D8%A7%D9%84%D9%87%D9%88%D8%A7-%D9%88%D9%85%D9%86-%D9%87%D9%88%D8%A7%D9%87-%D9%82%D9%84%D8%A8%D9%8A).mp3" type="audio/mpeg">
+                    متصفحك لا يدعم تشغيل الصوت مباشرة.
+                </audio>
+            </div>
         </div>
 
         <div class="vip-card-box">
-            <div style="font-size: 11px; font-weight: bold; letter-spacing: 2px;">ROYAL VIP CARD 👑</div>
-            <div style="font-size: 18px; font-weight: bold; margin: 6px 0; color: #000;">👑 صلاحيات الملكة رورو</div>
-            <p style="font-size: 11px; color: #333; margin-bottom: 10px;">اضغطي لعرض حقوقك المطلقة في قلب عمر ❤️</p>
-            <button class="btn-primary" style="background: #1a002c; color: var(--gold); border: 1px solid var(--gold); width: 90%; margin: 0;" onclick="showVipPowers()">اعرضي هويتك 💳</button>
+            <div class="vip-top">
+                <div class="vip-chip"></div>
+                <div class="vip-label">ROYAL VIP CARD 👑</div>
+            </div>
+            <div class="vip-name">الملكة روان</div>
+            <div class="vip-name-en">Queen Rawan</div>
+            <button class="btn-primary btn-dark-gold" onclick="showVipPowers()">اعرضي صلاحياتك 💳</button>
         </div>
 
-        <h4 style="text-align: right; color: var(--gold); margin-bottom: 5px;">عداد الحب بيننا ⏳</h4>
+        <div class="section-label">⏳ عداد حبنا من أول كلمة</div>
         <div class="counter-grid">
             <div class="counter-card"><span id="years">0</span><label>سنة</label></div>
             <div class="counter-card"><span id="months">0</span><label>شهر</label></div>
@@ -270,130 +743,267 @@
             <div class="counter-card"><span id="seconds">0</span><label>ثانية</label></div>
         </div>
 
+        <div class="section-label">🎂 فاضل على عيد ميلادك</div>
+        <div class="counter-grid" style="grid-template-columns: repeat(4, 1fr);">
+            <div class="counter-card"><span id="bdDays">0</span><label>يوم</label></div>
+            <div class="counter-card"><span id="bdHours">0</span><label>ساعة</label></div>
+            <div class="counter-card"><span id="bdMinutes">0</span><label>دقيقة</label></div>
+            <div class="counter-card"><span id="bdSeconds">0</span><label>ثانية</label></div>
+        </div>
+        <p id="bdNote" style="font-size: 12px; color: var(--muted); margin: 8px 0 0;">وأنا محضّرلك أحلى مفاجأة 🎁</p>
+
+        <div class="section-label">💌 جواب ليكي</div>
         <div class="feature-card">
-            <strong style="color: var(--gold);">✉️ رسالة حب اليوم:</strong>
-            <p style="font-size: 12px; color: #ccc; margin: 8px 0;">رسالة دافئة بتتغير تلقائياً كل 24 ساعة ليكي:</p>
-            <button class="btn-primary" style="width: 100%; margin: 0;" onclick="showDailyMessage()">افتحي رسالة اليوم 💌</button>
+            <div class="envelope-wrap" onclick="openLetter()">
+                <div class="envelope" id="envelope">
+                    <div class="env-flap"></div>
+                    <div class="env-seal">❤</div>
+                    <div class="env-letter">لروان 🌸</div>
+                </div>
+            </div>
+            <p class="card-sub" id="envHint" style="margin-top: 10px;">جواب النهارده رقم <b id="letterNum" style="color: var(--gold);"></b>.. دوسي عليه عشان تفتحيه 💌</p>
+            <div class="letter-paper" id="letterPaper">
+                <div id="letterBody"></div>
+                <div class="letter-sign" id="letterSign"></div>
+            </div>
+            <p class="card-sub" style="margin-top: 10px;">⏰ كل يوم جواب جديد عمره ما اتكرر قبل كده</p>
+        </div>
+
+        <div class="section-label">📬 افتحي لما...</div>
+        <div class="feature-card">
+            <div class="open-when-grid">
+                <button class="ow-btn" onclick="openWhen('sad')"><span>🥺</span>تكوني زعلانة</button>
+                <button class="ow-btn" onclick="openWhen('miss')"><span>💭</span>أوحشك</button>
+                <button class="ow-btn" onclick="openWhen('sleep')"><span>🌙</span>مش جايلك نوم</button>
+                <button class="ow-btn" onclick="openWhen('stress')"><span>😮‍💨</span>تكوني مضغوطة</button>
+                <button class="ow-btn" onclick="openWhen('angry')"><span>😤</span>تكوني زعلانة مني</button>
+                <button class="ow-btn" onclick="openWhen('happy')"><span>🥰</span>تكوني فرحانة</button>
+            </div>
+        </div>
+
+        <div class="section-label">💌 ليكي</div>
+
+        <div class="feature-card">
+            <div class="card-head">
+                <div class="card-icon">✉️</div>
+                <div><div class="card-title">رسالة حب اليوم</div><div class="card-sub">بتتغير لوحدها كل 24 ساعة</div></div>
+            </div>
+            <button class="btn-primary" onclick="showDailyMessage()">افتحي رسالة اليوم 💌</button>
         </div>
 
         <div class="feature-card">
-            <strong style="color: var(--gold);">📞 اتصلي بعمر مباشرة:</strong>
-            <p style="font-size: 11px; color: #ccc; margin: 6px 0;">وحشتيني؟ اضغطي هنا عشان تتصلي بيا فوراً:</p>
-            <button class="btn-primary btn-call-direct" style="width: 100%; margin: 0;" onclick="openCallModal()">اتصلي بعمر 📞</button>
+            <div class="card-head">
+                <div class="card-icon">📞</div>
+                <div><div class="card-title">اتصلي بعمر مباشرة</div><div class="card-sub">وحشتيني؟ اضغطي وكلميني فوراً</div></div>
+            </div>
+            <button class="btn-primary btn-call-direct" onclick="openCallModal()">اتصلي بعمر 📞</button>
         </div>
 
         <div class="feature-card">
-            <strong style="color: var(--gold); font-size: 15px;">📞 مكالمة طارئة من حبيب القلب</strong>
-            <p style="font-size: 11px; color: #ccc; margin: 6px 0;">تردي على المكالمة الآن؟</p>
-            <div style="display: flex; gap: 8px;">
-                <button style="background:#28a745; color:white; border:none; padding:10px; border-radius:10px; flex:1; font-weight:bold; cursor:pointer;" onclick="acceptCall()">رد 📞</button>
-                <button style="background:#dc3545; color:white; border:none; padding:10px; border-radius:10px; flex:1; font-weight:bold; cursor:pointer;" onclick="rejectCall()">رفض ❌</button>
+            <div class="card-head">
+                <div class="card-icon">🚨</div>
+                <div><div class="card-title">مكالمة طارئة من حبيب القلب</div><div class="card-sub">تردي على المكالمة دلوقتي؟</div></div>
+            </div>
+            <div class="btn-row">
+                <button class="btn-primary btn-accept" onclick="acceptCall()">رد 📞</button>
+                <button class="btn-primary btn-reject" onclick="rejectCall()">رفض ❌</button>
             </div>
         </div>
     </div>
 
-    <!-- 3. صفحة الألعاب والفعاليات (Games Tab) -->
+    <!-- 3. الألعاب -->
     <div id="gamesTab" class="screen">
-        <h3 style="color: var(--gold); margin-top: 10px;">🎮 الألعاب والفعاليات التفاعلية</h3>
+        <h2 class="page-title">🎮 ألعابنا وفعالياتنا</h2>
 
         <div class="feature-card">
-            <strong style="color: #fff; font-size: 16px;">🔋 بطارية قلبي</strong>
-            <p style="font-size: 12px; color: #ddd; margin: 6px 0 10px 0;">قلبي بيفصل لما بتبعدي، اضغطي عشان تشحنيه:</p>
-            
-            <div class="battery-container">
-                <div class="battery-fill" id="batteryFill"></div>
+            <div class="card-head">
+                <div class="card-icon">🤗</div>
+                <div><div class="card-title">ابعتيلي حضن</div><div class="card-sub">دوسي مطوّل على القلب لحد ما الدايرة تكمل</div></div>
             </div>
-
-            <button class="btn-primary" style="background: linear-gradient(45deg, #ff2a5f, #ff4070); width: 100%; margin: 5px 0 8px 0; font-size: 16px;" onclick="chargeBattery()">اشحني قلبي ⚡</button>
-            
-            <p id="batteryStatus" style="font-size: 13px; color: var(--accent-pink); font-weight: bold; min-height: 20px; margin: 5px 0 0 0;"></p>
+            <button class="hug-btn" id="hugBtn" aria-label="حضن">
+                <svg class="hug-ring" viewBox="0 0 146 146"><circle id="hugCircle" cx="73" cy="73" r="70"/></svg>
+                🤗
+            </button>
+            <p id="hugStatus" class="result-text"></p>
         </div>
 
         <div class="feature-card">
-            <strong style="color: var(--gold); font-size: 15px;">🧮 الآلة الحاسبة المجنونة:</strong>
-            <p style="font-size: 11px; color: #ccc; margin: 6px 0;">احسبي أي حاجة وشوفي النتيجة:</p>
-            <input type="text" id="calcInput" value="1 + 1" style="width: 100%; margin-bottom: 8px;">
-            <button class="btn-primary" style="width: 100%; margin: 0; background: linear-gradient(45deg, #a80038, #ff0055);" onclick="calculateLove()">يساوي =</button>
-        </div>
-        
-        <div class="feature-card">
-            <strong style="color: var(--accent-pink);">🎯 مين بيعرف التاني أكتر؟</strong>
-            <p id="gameQuestion" style="font-size: 12px; color: #fff; margin: 8px 0;">أكتر أكلة عمر بيحبها منك إيه؟</p>
-            <div id="gameOptions">
-                <button class="quiz-option-btn" onclick="checkGameAnswer(1)">بيتزا 🍕</button>
-                <button class="quiz-option-btn" onclick="checkGameAnswer(2)">مكرونة بشاميل 🍝</button>
-                <button class="quiz-option-btn" onclick="checkGameAnswer(3)">أي حاجة من إيدك سكر ❤️</button>
+            <div class="card-head">
+                <div class="card-icon">🎲</div>
+                <div><div class="card-title">ليه بحبك؟</div><div class="card-sub">كل ضغطة سبب جديد</div></div>
             </div>
-            <p id="gameResult" style="font-size: 12px; color: var(--gold); font-weight: bold; margin-top: 5px;"></p>
+            <div class="big-quote" id="reasonText">دوسي وشوفي 💕</div>
+            <button class="btn-primary" onclick="randomReason()">قولي سبب كمان 💖</button>
         </div>
 
         <div class="feature-card">
-            <strong style="color: var(--accent-pink);">💖 عداد الشوق والتفكير:</strong>
-            <p style="font-size: 11px; color: #ccc; margin: 6px 0;">وحشتك دلوقتي؟ اضغطي هنا وسجلي شوقك لعمر:</p>
-            <p style="font-size: 15px; color: var(--gold); font-weight: bold; margin: 5px 0;">وحشتيني: <span id="missCount">0</span> مرة ❤️</p>
-            <button class="btn-primary" style="width: 100%; margin: 0; background: linear-gradient(45deg, #e91e63, #ff4081);" onclick="addMissCount()">وحشتني يا عمر 🥺💖</button>
+            <div class="card-head">
+                <div class="card-icon">🔋</div>
+                <div><div class="card-title">بطارية قلبي</div><div class="card-sub">قلبي بيفصل لما بتبعدي، اشحنيه</div></div>
+            </div>
+            <div class="battery-wrap">
+                <div class="battery-container">
+                    <div class="battery-fill" id="batteryFill"></div>
+                    <div class="battery-pct" id="batteryPct">0%</div>
+                </div>
+                <div class="battery-tip"></div>
+            </div>
+            <button class="btn-primary" onclick="chargeBattery()">اشحني قلبي ⚡</button>
+            <p id="batteryStatus" class="result-text"></p>
         </div>
 
         <div class="feature-card">
-            <strong style="color: var(--gold);">🎡 عجلة حظ الخروجة:</strong>
+            <div class="card-head">
+                <div class="card-icon">🧮</div>
+                <div><div class="card-title">الآلة الحاسبة المجنونة</div><div class="card-sub">احسبي أي حاجة وشوفي النتيجة</div></div>
+            </div>
+            <input type="text" id="calcInput" value="1 + 1" dir="ltr">
+            <button class="btn-primary" onclick="calculateLove()">يساوي =</button>
+        </div>
+
+        <div class="feature-card">
+            <div class="card-head">
+                <div class="card-icon">🎯</div>
+                <div><div class="card-title">مين بيعرف التاني أكتر؟</div><div class="card-sub">أكتر أكلة عمر بيحبها منك إيه؟</div></div>
+            </div>
+            <button class="quiz-option-btn" onclick="checkGameAnswer(1)">بيتزا 🍕</button>
+            <button class="quiz-option-btn" onclick="checkGameAnswer(2)">مكرونة بشاميل 🍝</button>
+            <button class="quiz-option-btn" onclick="checkGameAnswer(3)">أي حاجة من إيدك سكر ❤️</button>
+            <p id="gameResult" class="result-text"></p>
+        </div>
+
+        <div class="feature-card">
+            <div class="card-head">
+                <div class="card-icon">💖</div>
+                <div><div class="card-title">عداد الشوق</div><div class="card-sub">وحشتك؟ سجلي شوقك لعمر</div></div>
+            </div>
+            <p style="font-size: 16px; color: var(--gold); font-weight: 800; margin: 4px 0 12px;">وحشتيني: <span id="missCount">0</span> مرة ❤️</p>
+            <button class="btn-primary" onclick="addMissCount()">وحشتني يا عمر 🥺💖</button>
+        </div>
+
+        <div class="feature-card">
+            <div class="card-head">
+                <div class="card-icon">🎡</div>
+                <div><div class="card-title">عجلة حظ الخروجة</div><div class="card-sub">لفي العجلة وشوفي هنخرج فين</div></div>
+            </div>
             <div class="wheel-box">
                 <div class="wheel-pointer"></div>
-                <div class="wheel" id="wheel"></div>
+                <div class="wheel" id="wheel">
+                    <span class="wheel-label" style="transform: rotate(45deg) translate(0, -62px) rotate(-45deg) translate(-50%,-50%);">🎬</span>
+                    <span class="wheel-label" style="transform: rotate(135deg) translate(0, -62px) rotate(-135deg) translate(-50%,-50%);">🍝</span>
+                    <span class="wheel-label" style="transform: rotate(225deg) translate(0, -62px) rotate(-225deg) translate(-50%,-50%);">🌊</span>
+                    <span class="wheel-label" style="transform: rotate(315deg) translate(0, -62px) rotate(-315deg) translate(-50%,-50%);">🛍️</span>
+                </div>
+                <div class="wheel-center">💕</div>
             </div>
-            <p id="wheelResult" style="font-size: 12px; color: var(--gold); font-weight: bold; min-height: 18px;"></p>
-            <button class="btn-primary" style="width: 100%; margin: 0;" onclick="spinRealWheel()">دوري العجلة 🎲</button>
+            <p id="wheelResult" class="result-text"></p>
+            <button class="btn-primary" id="spinBtn" onclick="spinRealWheel()">دوري العجلة 🎲</button>
         </div>
 
         <div class="feature-card">
-            <strong style="color: var(--gold);">💬 أسئلة صراحة:</strong>
-            <p style="font-size: 12px; color: #fff; margin: 8px 0;">أكتر حاجة بتشدك ليا إيه؟</p>
+            <div class="card-head">
+                <div class="card-icon">💬</div>
+                <div><div class="card-title">أسئلة صراحة</div><div class="card-sub">أكتر حاجة بتشدك ليا إيه؟</div></div>
+            </div>
             <button class="quiz-option-btn" onclick="answerQuiz()">عينيك 👀</button>
             <button class="quiz-option-btn" onclick="answerQuiz()">شخصيتك 😎</button>
             <button class="quiz-option-btn" onclick="answerQuiz()">حنيتك 💖</button>
             <button class="quiz-option-btn" onclick="answerQuiz()">كل حاجة فيك ❤️</button>
-            <p id="quizResponse" style="font-size: 12px; color: var(--accent-pink); font-weight: bold; margin-top: 6px;"></p>
+            <p id="quizResponse" class="result-text"></p>
         </div>
 
         <div class="feature-card">
-            <strong style="color: var(--accent-pink);">💊 روشتة السعادة & ☕ زر الروقان:</strong>
-            <button class="btn-primary" style="width: 100%; margin: 8px 0 5px;" onclick="alert('💊 تم صرف الروشتة: مكالمة أسمع فيها صوتك وتقوليلي بحبك ❤️')">اصرفي الروشتة 🧪</button>
-            <button class="btn-primary" style="width: 100%; margin: 0; background: linear-gradient(45deg, #00b4db, #0083b0);" onclick="chillMode()">يلا بينا ع الكورنيش 🌊🍹</button>
+            <div class="card-head">
+                <div class="card-icon">💊</div>
+                <div><div class="card-title">روشتة السعادة وزر الروقان</div><div class="card-sub">علاج فوري لأي زعل</div></div>
+            </div>
+            <button class="btn-primary" style="margin-bottom: 10px;" onclick="showModal('💊', 'تم صرف الروشتة:\nمكالمة أسمع فيها صوتك وتقوليلي بحبك ❤️')">اصرفي الروشتة 🧪</button>
+            <button class="btn-primary btn-sea" onclick="chillMode()">يلا بينا ع الكورنيش 🌊🍹</button>
         </div>
     </div>
 
-    <!-- 4. صفحة الذكريات (Memories Tab) -->
+    <!-- 4. الذكريات -->
     <div id="memoriesTab" class="screen">
-        <h3 style="color: var(--gold); margin-top: 10px;">📸 معرض ذكرياتنا الجميلة</h3>
+        <h2 class="page-title">📸 ذكرياتنا الحلوة</h2>
 
         <div class="slider-container">
             <button class="slider-btn prev-btn" onclick="moveSlide(1)">❯</button>
             <div class="slider-wrapper" id="sliderWrapper">
-                <div class="slide-box"><img src="https://i.ibb.co/Q3kmgy5D/Whats-App-Image-2026-08-31-at-9-30-06-AM-4.jpg" class="slide-img"></div>
-                <div class="slide-box"><img src="https://i.ibb.co/fzrmnXGv/Whats-App-Image-2026-08-31-at-9-30-06-AM-3.jpg" class="slide-img"></div>
-                <div class="slide-box"><img src="https://i.ibb.co/zT3LrtpN/Whats-App-Image-2026-08-31-at-9-30-06-AM-2.jpg" class="slide-img"></div>
-                <div class="slide-box"><img src="https://i.ibb.co/ns6z5mSB/Whats-App-Image-2026-08-31-at-9-30-06-AM-1.jpg" class="slide-img"></div>
-                <div class="slide-box"><img src="https://i.ibb.co/wht7JG6X/Whats-App-Image-2026-08-31-at-9-30-06-AM.jpg" class="slide-img"></div>
-                <div class="slide-box"><img src="https://i.ibb.co/0RmgJ8Yb/Whats-App-Image-2026-08-31-at-9-30-05-AM-2.jpg" class="slide-img"></div>
-                <div class="slide-box"><img src="https://i.ibb.co/0y47DCNt/Whats-App-Image-2026-08-31-at-9-30-05-AM-1.jpg" class="slide-img"></div>
-                <div class="slide-box"><img src="https://i.ibb.co/8DjjgxjW/Whats-App-Image-2026-08-31-at-9-30-05-AM.jpg" class="slide-img"></div>
-                <div class="slide-box"><img src="https://i.ibb.co/S4XbqDjS/Whats-App-Image-2026-08-31-at-9-30-04-AM-1.jpg" class="slide-img"></div>
-                <div class="slide-box"><img src="https://i.ibb.co/jvphF0b2/Whats-App-Image-2026-08-31-at-9-30-04-AM.jpg" class="slide-img"></div>
-                <div class="slide-box"><img src="https://i.ibb.co/KjH7KsKV/Whats-App-Image-2026-08-31-at-9-30-03-AM-3.jpg" class="slide-img"></div>
-                <div class="slide-box"><img src="https://i.ibb.co/B5p0XRh6/Whats-App-Image-2026-08-31-at-9-30-03-AM-2.jpg" class="slide-img"></div>
-                <div class="slide-box"><img src="https://i.ibb.co/S4BTsnGD/Whats-App-Image-2026-08-31-at-9-30-03-AM.jpg" class="slide-img"></div>
-                <div class="slide-box"><img src="https://i.ibb.co/svwfXqWp/Whats-App-Image-2026-08-31-at-9-30-01-AM.jpg" class="slide-img"></div>
-                <div class="slide-box"><img src="https://i.ibb.co/Lzbtkx8p/Whats-App-Image-2026-08-31-at-9-30-00-AM-2.jpg" class="slide-img"></div>
-                <div class="slide-box"><img src="https://i.ibb.co/Pvkvg0Vs/Whats-App-Image-2026-08-31-at-9-30-00-AM-1.jpg" class="slide-img"></div>
-                <div class="slide-box"><img src="https://i.ibb.co/p6pFXXZb/Whats-App-Image-2026-08-31-at-9-30-00-AM.jpg" class="slide-img"></div>
-                <div class="slide-box"><img src="https://i.ibb.co/S7WJQc3j/2.jpg" class="slide-img"></div>
-                <div class="slide-box"><img src="https://i.ibb.co/8WWHsHL/image.jpg" class="slide-img"></div>
-                <div class="slide-box"><img src="https://i.ibb.co/nNTTWmBC/3.jpg" class="slide-img"></div>
+                <div class="slide-box"><img src="https://i.ibb.co/Q3kmgy5D/Whats-App-Image-2026-08-31-at-9-30-06-AM-4.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/fzrmnXGv/Whats-App-Image-2026-08-31-at-9-30-06-AM-3.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/zT3LrtpN/Whats-App-Image-2026-08-31-at-9-30-06-AM-2.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/ns6z5mSB/Whats-App-Image-2026-08-31-at-9-30-06-AM-1.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/wht7JG6X/Whats-App-Image-2026-08-31-at-9-30-06-AM.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/0RmgJ8Yb/Whats-App-Image-2026-08-31-at-9-30-05-AM-2.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/0y47DCNt/Whats-App-Image-2026-08-31-at-9-30-05-AM-1.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/8DjjgxjW/Whats-App-Image-2026-08-31-at-9-30-05-AM.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/S4XbqDjS/Whats-App-Image-2026-08-31-at-9-30-04-AM-1.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/jvphF0b2/Whats-App-Image-2026-08-31-at-9-30-04-AM.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/KjH7KsKV/Whats-App-Image-2026-08-31-at-9-30-03-AM-3.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/B5p0XRh6/Whats-App-Image-2026-08-31-at-9-30-03-AM-2.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/S4BTsnGD/Whats-App-Image-2026-08-31-at-9-30-03-AM.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/svwfXqWp/Whats-App-Image-2026-08-31-at-9-30-01-AM.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/Lzbtkx8p/Whats-App-Image-2026-08-31-at-9-30-00-AM-2.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/Pvkvg0Vs/Whats-App-Image-2026-08-31-at-9-30-00-AM-1.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/p6pFXXZb/Whats-App-Image-2026-08-31-at-9-30-00-AM.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/S7WJQc3j/2.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/8WWHsHL/image.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/nNTTWmBC/3.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/cc85pTJ9/IMG-20260904-183138.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/sD34GHK/IMG-20260904-183932.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/r2y7tBKt/IMG-20260904-183936.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/20yTQ7hb/IMG-20260911-175752.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/CpXYc8pn/IMG-20260911-175917.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/k2V74Jrh/IMG-20260918-164407-838.webp" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/S7fVw0mF/IMG-20260918-164432-265.webp" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/8DRRnYJm/IMG-20260912-WA0003.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/Ng3xBKVH/IMG-20260912-WA0005.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/Gf9R9sW5/IMG-20260912-WA0009.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/TBHZQDP9/IMG-20260912-WA0012.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/bRYfSyNH/IMG-20260912-WA0035.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/35z3VMBx/IMG-20260912-WA0036.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/LDcXFsGv/IMG-20260912-WA0039.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/mr4kMpPR/IMG-20260912-WA0040.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/WpK40329/IMG-20260912-WA0041.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/tTyLVYKj/IMG-20260912-WA0044.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/5g8HtnCc/IMG-20260912-WA0045.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/V7SrTJw/IMG-20260912-WA0046.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/PGYd3gPW/IMG-20260912-WA0047.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/8LcgbKxr/IMG-20260912-WA0049.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/B2FhQ6fB/IMG-20261009-193043.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/F41BJX65/IMG-20260920-WA0031.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/r2jKf9Ln/IMG-20260920-WA0033.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/607nq1Mr/IMG-20260920-WA0035.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/m5h8SCVB/IMG-20260920-WA0038.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/LzSvPX9t/IMG-20260920-WA0039.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/Wp7YWWKj/IMG-20260920-WA0040.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/1fSMdrYk/IMG-20260920-WA0041.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/HpDfqcHJ/IMG-20260920-WA0042.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/TDJd3kR0/IMG-20260920-WA0043.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/V0TMd4gX/IMG-20260926-WA0027.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/QjQ4dpgm/IMG-20260926-WA0028.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/WNM370Xf/IMG-20260926-WA0029.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/6RBYjfD0/IMG-20260926-WA0053.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/cKNzqddd/IMG-20261010-WA0006.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/DPGM2yrD/IMG-20261010-WA0007.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/nszGkfZ9/IMG-20261010-WA0010.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/qLftyjbp/IMG-20261010-WA0011.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/My329JZW/IMG-20261010-WA0012.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/Df4Ndgym/IMG-20261010-WA0016.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/gM69Fm6J/IMG-20261010-WA0019.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/v48NpkhH/IMG-20261010-WA0023.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/GfHP4dH5/IMG-20261010-WA0026.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/QvHW4rCs/IMG-20261010-WA0027.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/p6FTCdXB/IMG-20261010-WA0028.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/6ckYHvm5/IMG-20261010-WA0029.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/G4MZ1NTr/IMG-20261010-WA0030.jpg" class="slide-img" loading="lazy" alt=""></div>
+                <div class="slide-box"><img src="https://i.ibb.co/qFstdXTn/IMG-20261010-WA0031.jpg" class="slide-img" loading="lazy" alt=""></div>
             </div>
             <button class="slider-btn next-btn" onclick="moveSlide(-1)">❮</button>
         </div>
-        <p style="font-size: 12px; color: var(--gold);">صورة رقم <span id="slideNum">1</span> من 20</p>
+        <span class="slide-counter">صورة <span id="slideNum">1</span> من <span id="slideTotal"></span></span>
 
-        <h4 style="text-align: right; color: var(--accent-pink); margin-top: 20px;">خريطة طريق حبنا 💍📍</h4>
+        <div class="section-label">💍 خريطة طريق حبنا</div>
         <div class="timeline">
             <div class="timeline-item">
                 <div class="timeline-date">31.01.2026</div>
@@ -401,7 +1011,7 @@
             </div>
             <div class="timeline-item">
                 <div class="timeline-date">20.02.2026</div>
-                <div class="timeline-desc">أول مرة قلتها لك: بحبك! ❤️</div>
+                <div class="timeline-desc">أول مرة قلتهالك: بحبك! ❤️</div>
             </div>
             <div class="timeline-item">
                 <div class="timeline-date">19.06.2026</div>
@@ -418,139 +1028,244 @@
         </div>
 
         <div class="feature-card">
-            <strong style="color: var(--gold);">💖 أسباب خلتني مجنون بيكي:</strong>
-            <div style="max-height: 150px; overflow-y: auto; text-align: right; margin-top: 8px;">
-                <p style="font-size: 12px; margin: 4px 0;">1. عشان ضحكتك بتنور يومي.</p>
-                <p style="font-size: 12px; margin: 4px 0;">2. عشان حنيتك اللي ملهاش زي.</p>
-                <p style="font-size: 12px; margin: 4px 0;">3. عشان عيونك اللي بسرح فيها.</p>
-                <p style="font-size: 12px; margin: 4px 0;">4. عشان طيبة قلبك.</p>
-                <p style="font-size: 12px; margin: 4px 0;">5. عشان بتخليني أحسن نسخة من نفسي.</p>
+            <div class="card-head">
+                <div class="card-icon">💖</div>
+                <div><div class="card-title">أسباب خلتني مجنون بيكي</div></div>
+            </div>
+            <div class="reasons">
+                <div class="reason"><b>1</b>عشان ضحكتك بتنور يومي.</div>
+                <div class="reason"><b>2</b>عشان حنيتك اللي ملهاش زي.</div>
+                <div class="reason"><b>3</b>عشان عيونك اللي بسرح فيها.</div>
+                <div class="reason"><b>4</b>عشان طيبة قلبك.</div>
+                <div class="reason"><b>5</b>عشان بتخليني أحسن نسخة من نفسي.</div>
             </div>
         </div>
+
+        <div class="feature-card">
+            <div class="card-head">
+                <div class="card-icon">🤞</div>
+                <div><div class="card-title">وعودي ليكي</div><div class="card-sub">ودي وعود عمر ليكي طول العمر</div></div>
+            </div>
+            <div class="promise"><i>💍</i>أفضل جنبك في الحلوة والمرة، ومسيبش إيدك أبداً.</div>
+            <div class="promise"><i>😂</i>أضحكك حتى وإنتي زعلانة، ولو اضطريت أعمل نفسي أهبل.</div>
+            <div class="promise"><i>👂</i>أسمعك للآخر، حتى لو الحكاية طويلة ومليانة تفاصيل.</div>
+            <div class="promise"><i>🍫</i>الشوكولاتة متخلصش من عندك أبداً.</div>
+            <div class="promise"><i>🤲</i>أدعيلك في كل صلاة، وأشيلك في قلبي قبل عيني.</div>
+            <div class="promise"><i>🏡</i>نبني بيت مليان حب وضحك وأمان، يكون حضنك الدافي.</div>
+        </div>
     </div>
 
-    <!-- 5. صفحة الخدمات والرسائل المباشرة (Services Tab) -->
+    <!-- لحظة الخواتم الأربعة -->
+    <div id="ringsTab" class="screen">
+        <div class="rings-hero">
+            <div class="rings-row">
+                <div class="ring-item"><div class="ring-circle">💍</div><div class="ring-cap">الأولى</div></div>
+                <div class="ring-item"><div class="ring-circle">💍</div><div class="ring-cap">التانية</div></div>
+                <div class="ring-item"><div class="ring-circle">💍</div><div class="ring-cap">التالتة</div></div>
+                <div class="ring-item"><div class="ring-circle">💍</div><div class="ring-cap">الرابعة</div></div>
+            </div>
+            <p class="rings-title">إنتي نسائي الأربعة</p>
+            <p class="rings-title-en">You're all four of them</p>
+            <p class="card-sub" style="margin-bottom: 14px;">مش محتاج غيرك.. إنتي الأولى والتانية والتالتة والرابعة ❤️</p>
+        </div>
+
+        <div class="video-frame">
+            <div class="video-inner">
+                <div class="video-loading">الفيديو بيحمّل... 💍</div>
+                <iframe data-src="https://drive.google.com/file/d/18OVwY9aTVV87XqzdMiMYMHjhmqEiBBHa/preview" allow="autoplay; fullscreen" allowfullscreen title="فيديو الخواتم الأربعة"></iframe>
+            </div>
+        </div>
+
+        <div class="feature-card voice-card">
+            <div class="card-head">
+                <div class="card-icon">🎙️</div>
+                <div><div class="card-title">فويس من عمر</div><div class="card-sub">اسمعي بصوتي أنا.. بحبك ❤️</div></div>
+            </div>
+            <div class="voice-wave" aria-hidden="true">
+                <i style="animation-delay:0s"></i><i style="animation-delay:.1s"></i><i style="animation-delay:.2s"></i><i style="animation-delay:.3s"></i><i style="animation-delay:.4s"></i><i style="animation-delay:.5s"></i><i style="animation-delay:.4s"></i><i style="animation-delay:.3s"></i><i style="animation-delay:.2s"></i><i style="animation-delay:.1s"></i><i style="animation-delay:0s"></i>
+            </div>
+            <div class="voice-inner">
+                <iframe data-src="https://drive.google.com/file/d/19wegDBbCMTGcwJPGo3MDDw-8tzALeWDY/preview" allow="autoplay" title="فويس عمر"></iframe>
+            </div>
+            <div style="text-align: center; margin-top: 12px;">
+                <a class="btn-primary btn-violet" style="text-decoration: none;" href="https://drive.google.com/file/d/19wegDBbCMTGcwJPGo3MDDw-8tzALeWDY/view" target="_blank" rel="noopener">الفويس مش شغال؟ افتحيه من هنا 🎧</a>
+            </div>        </div>
+
+        <div style="text-align: center; margin-bottom: 10px;">
+            <a class="open-link" href="https://drive.google.com/file/d/18OVwY9aTVV87XqzdMiMYMHjhmqEiBBHa/view" target="_blank" rel="noopener">الفيديو مش ظاهر؟ افتحيه من هنا 🎬</a>
+        </div>
+    </div>
+
+    <!-- 5. رسائل لعمر -->
     <div id="servicesTab" class="screen">
-        <h3 style="color: var(--gold); margin-top: 10px;">💬 رسائل وأمنيات لعمر</h3>
+        <h2 class="page-title">💬 رسائل وأمنيات لعمر</h2>
 
         <div class="feature-card">
-            <strong style="color: var(--accent-pink);">🎁 صندوق الأمنيات الملكي:</strong>
-            <p style="font-size: 11px; color: #ccc; margin: 6px 0;">نفسك في إيه نعمله سوا أو اطلب أمنية وعمر هينفذها فوراً:</p>
+            <div class="card-head">
+                <div class="card-icon">🎟️</div>
+                <div><div class="card-title">كوبونات الحب</div><div class="card-sub">كوبونات جديدة كل يوم! استخدمي أي كوبون وعمر لازم ينفذ فوراً 😌</div></div>
+            </div>
+            <div id="couponList"></div>
+        </div>
+
+        <div class="feature-card">
+            <div class="card-head">
+                <div class="card-icon">🎁</div>
+                <div><div class="card-title">صندوق الأمنيات الملكي</div><div class="card-sub">اطلبي أي أمنية وعمر هينفذها فوراً</div></div>
+            </div>
             <input type="text" id="wishInput" placeholder="اكتبي أمنيتك هنا يا ملكة ❤️">
-            <button class="btn-primary" style="width: 100%; margin: 0; background: linear-gradient(45deg, #8a2be2, #4a00e0);" onclick="sendWish()">اطلبي الأمنية ✨</button>
+            <button class="btn-primary btn-violet" onclick="sendWish()">اطلبي الأمنية ✨</button>
         </div>
 
         <div class="feature-card">
-            <strong style="color: var(--gold);">💬 رسالة سريعة لعمر على الواتساب:</strong>
-            <p style="font-size: 11px; color: #ccc; margin: 6px 0;">اكتبي أي حاجة في بالك وهتوصلني فوراً:</p>
+            <div class="card-head">
+                <div class="card-icon">💬</div>
+                <div><div class="card-title">رسالة سريعة على الواتساب</div><div class="card-sub">اكتبي أي حاجة في بالك وهتوصلني فوراً</div></div>
+            </div>
             <textarea id="customMessage" placeholder="اكتبي رسالتك هنا يا روحي... ❤️"></textarea>
-            <button class="btn-primary btn-whatsapp" style="width: 100%; margin: 0;" onclick="sendWhatsAppMessage()">إرسال إلى عمر ❤️</button>
+            <button class="btn-primary btn-whatsapp" onclick="sendWhatsAppMessage()">إرسال إلى عمر ❤️</button>
         </div>
     </div>
 
 </div>
 
-<!-- Nav Bar أسفل الشاشة -->
+<!-- الشريط السفلي -->
 <div class="bottom-nav" id="bottomNav" style="display: none;">
-    <div class="nav-item active" onclick="switchTab('homeTab', this)">
-        <span>🏠</span>
-        <span>الرئيسية</span>
-    </div>
-    <div class="nav-item" onclick="switchTab('gamesTab', this)">
-        <span>🎮</span>
-        <span>الألعاب</span>
-    </div>
-    <div class="nav-item" onclick="switchTab('memoriesTab', this)">
-        <span>📸</span>
-        <span>الذكريات</span>
-    </div>
-    <div class="nav-item" onclick="switchTab('servicesTab', this)">
-        <span>💌</span>
-        <span>رسائل لعمر</span>
-    </div>
+    <div class="nav-item active" onclick="switchTab('homeTab', this)"><span class="nav-emoji">🏠</span><span>الرئيسية</span></div>
+    <div class="nav-item" onclick="switchTab('gamesTab', this)"><span class="nav-emoji">🎮</span><span>الألعاب</span></div>
+    <div class="nav-item" onclick="switchTab('ringsTab', this)"><span class="nav-emoji">💍</span><span>الخواتم</span></div>
+    <div class="nav-item" onclick="switchTab('memoriesTab', this)"><span class="nav-emoji">📸</span><span>الذكريات</span></div>
+    <div class="nav-item" onclick="switchTab('servicesTab', this)"><span class="nav-emoji">💌</span><span>رسائل لعمر</span></div>
 </div>
 
-<!-- النافذة المنبثقة للاتصال -->
+<!-- نافذة الاتصال -->
 <div class="modal-overlay" id="callModal">
     <div class="modal-box">
-        <h3 style="color: var(--gold); margin-top: 0;">📞 تأكيد الاتصال بحبيبك</h3>
-        <p style="font-size: 13px; color: #fff; margin: 15px 0;">تأكيد الاتصال بعمر الآن على الرقم:<br><strong style="color: var(--accent-pink); font-size: 16px;">01027431616</strong></p>
-        <button class="btn-primary" style="width: 100%; margin-bottom: 8px;" onclick="confirmCall()">تأكيد وإتصال الآن 📞</button>
-        <button style="background: #dc3545; color: white; border: none; width: 100%; padding: 10px; border-radius: 12px; font-weight: bold; cursor: pointer;" onclick="closeCallModal()">إلغاء ❌</button>
+        <div class="modal-emoji">📞</div>
+        <h3 style="color: var(--gold); margin: 0;">تأكيد الاتصال بحبيبك</h3>
+        <p class="modal-text">تأكيد الاتصال بعمر الآن على الرقم:<br><strong style="color: var(--pink-soft); font-size: 18px; direction: ltr; display: inline-block;">01027431616</strong></p>
+        <button class="btn-primary btn-call-direct" style="margin-bottom: 10px;" onclick="confirmCall()">اتصلي دلوقتي 📞</button>
+        <button class="btn-primary btn-reject" onclick="closeCallModal()">إلغاء ❌</button>
     </div>
 </div>
 
-<!-- أغنية الاتصال الجانبية -->
+<!-- نافذة الرسائل (بدل alert) -->
+<div class="modal-overlay" id="msgModal" onclick="if(event.target===this) closeModal()">
+    <div class="modal-box">
+        <div class="modal-emoji" id="msgEmoji">💌</div>
+        <p class="modal-text" id="msgText"></p>
+        <button class="btn-primary" onclick="closeModal()">بحبك ❤️</button>
+    </div>
+</div>
+
 <audio id="callSong" preload="auto">
     <source src="https://serv2.albumaty.com/2026/Albumaty.Com_twwlyt_twwlyt_gryit_awy.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-    const validCodes = ["25-8-2001", "25/8/2001", "2582001", "25-08-2001", "25/08/2001"];
+    const validCodes = ["25-8-2001", "25/8/2001", "2582001", "25-08-2001", "25/08/2001", "25082001"];
     let currentIndex = 0;
-    const totalSlides = 20;
+    const totalSlides = document.querySelectorAll('#sliderWrapper .slide-box').length;
+    document.getElementById('slideTotal').textContent = totalSlides;
     let missCounter = 0;
     let batteryLevel = 0;
+    let wheelRotation = 0;
+    let wheelSpinning = false;
 
-    const dailyMessages = [
-        "صباح الخير يا أجمل اختيار اخترته بحياتي.. وجودك معي بيكفي عن كل حاجة ثانية ❤️",
-        "كل يوم بيكبر حبي ليكي أكتر، ومفيش يوم بيعدي إلا وأنا بشكر ربنا إنك بقيتي من نصيبي ✨💍",
-        "يا حظي الجميل وبداية كل حاجة حلوة.. ابتسامتك هي كل روقان يومي 🌸",
-        "يا روحي وعينيا ونوري.. كل ثانية وإنتي حبيبتي وأميرتي وكل دنيتي 💖",
-        "أنا مش بس بحبك، أنا بعشق كل تفصيلة فيكي وكل كلمة بتقوليها.. ربي يديمك لي العمر كله 👑",
-        "كل ليلة قبل ما أنام وبداية كل يوم جديد.. إنتي أول حاجة في بالي وأجمل فكرة في عقلي 💕",
-        "وجودك بقلبي بيخليني أحسن نسخة من نفسي.. بحبك يا أحلى وأحن رورو في الدنيا 🥺❤️",
-        "إنتي مش خطيبتي بس، إنتي نوري وملجئي وضحكة قلبي المليانة حب وسعادة ✨",
-        "لما بفتكر ليلة خطوبتنا ولبسنا الدبل، بحس إني ملكت العالم كله باختياري ليكي 💍❤️",
-        "يا كل أمنياتي ويا أجمل حقيقة عاشها قلبي.. بحبك لأخر العمر وما بعده 💖",
-        "لو سألوني عن سبب سعادتي، هقولهم إن ربنا رزقني بأحلى وأطيب رورو في الكون 🌸",
-        "صوتك وضحكتك هما الأكسجين اللي بتنفسه.. دمتِ لي حبيبتي حتى المشيب 👴🏻👵🏻❤️",
-        "كل خطوة باخدها في حياتي بتبقى أحلى وأسهل عشان عارف إنك معايا وجنبي 💕",
-        "عيونك يا رورو هما المكان الوحيد اللي بحس فيه بالأمان والراحة.. بحبك يا روحي 👁️✨"
+
+    /* ===== الأسامي اللي بتقع في الخلفية ===== */
+    const fallingWords = [
+        { t: "عمر", c: "ar" }, { t: "روان", c: "ar" }, { t: "رورو", c: "ar" },
+        { t: "عمر ❤ روان", c: "ar" }, { t: "بحبك", c: "ar" },
+        { t: "إنتي روحي", c: "ar" }, { t: "إنتي روحي", c: "ar" },
+        { t: "Omar", c: "en" }, { t: "Rawan", c: "en" }, { t: "Roro", c: "en" },
+        { t: "Omar ♥ Rawan", c: "en" }, { t: "O & R", c: "en" },
+        { t: "You're my soul", c: "en" },
+        { t: "❤", c: "en" }, { t: "💍", c: "en" }
     ];
+    const colors = ["pink", "gold", "white", "violet", "pink", "gold"];
+    const rain = document.getElementById('namesRain');
 
+    function spawnName() {
+        if (document.hidden) return;
+        const w = fallingWords[Math.floor(Math.random() * fallingWords.length)];
+        const el = document.createElement('span');
+        const depth = Math.random();                        // 0 = بعيد، 1 = قريب
+        const size = (w.c === 'en' ? 22 : 18) + depth * 26;
+        const duration = 14 - depth * 6 + Math.random() * 3; // القريب بيقع أسرع
+        const rot = (Math.random() * 30 - 15);
+
+        el.className = `falling-name ${w.c} ${colors[Math.floor(Math.random() * colors.length)]}`;
+        el.textContent = w.t;
+        el.style.left = (Math.random() * 100) + 'vw';
+        el.style.fontSize = size + 'px';
+        el.style.animationDuration = duration + 's';
+        el.style.setProperty('--op', (0.18 + depth * 0.45).toFixed(2));
+        el.style.setProperty('--drift', (Math.random() * 120 - 60) + 'px');
+        el.style.setProperty('--rot-start', rot + 'deg');
+        el.style.setProperty('--rot-end', (rot + Math.random() * 40 - 20) + 'deg');
+        if (depth < 0.3) el.style.filter = 'blur(1.5px)';
+
+        el.addEventListener('animationend', () => el.remove());
+        rain.appendChild(el);
+    }
+
+    // شوية أسامي في البداية عشان الشاشة متبقاش فاضية
+    for (let i = 0; i < 10; i++) {
+        setTimeout(spawnName, i * 250);
+    }
+    setInterval(spawnName, window.innerWidth < 500 ? 700 : 450);
+
+    /* ===== أدوات ===== */
     function safeConfetti() {
         if (typeof confetti === 'function') {
-            try { confetti({ particleCount: 80, spread: 60, origin: { y: 0.6 } }); } catch(e){}
+            try {
+                confetti({ particleCount: 90, spread: 70, origin: { y: 0.6 }, colors: ['#ff3d81', '#ffcf5c', '#ffffff', '#9b5cff'] });
+            } catch (e) {}
         }
     }
 
+    function showModal(emoji, text) {
+        document.getElementById('msgEmoji').textContent = emoji;
+        document.getElementById('msgText').textContent = text;
+        document.getElementById('msgModal').classList.add('active');
+    }
+    function closeModal() {
+        document.getElementById('msgModal').classList.remove('active');
+    }
+
     function createFloatingHeart(e) {
+        const hearts = ['❤️', '💖', '💕', '💗', '🌸'];
         const heart = document.createElement('div');
         heart.className = 'floating-heart';
-        heart.innerHTML = '❤️';
+        heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
         heart.style.left = e.clientX + 'px';
         heart.style.top = e.clientY + 'px';
         document.body.appendChild(heart);
         setTimeout(() => heart.remove(), 1500);
     }
 
+    /* ===== الدخول ===== */
     function checkPasscode() {
         const input = document.getElementById('passcode').value.trim();
-        if(validCodes.includes(input)) {
+        if (validCodes.includes(input)) {
             document.getElementById('lockScreen').classList.remove('active');
             document.getElementById('homeTab').classList.add('active');
             document.getElementById('bottomNav').style.display = 'flex';
-            
+
             const audio = document.getElementById('bgMusic');
             if (audio) {
                 audio.muted = false;
                 audio.currentTime = 0;
-                
-                const playPromise = audio.play();
-                if (playPromise !== undefined) {
-                    playPromise.then(() => {
-                        console.log("Audio playing successfully!");
-                    }).catch(e => {
-                        console.log("Autoplay restricted by browser, fallback to manual controls.", e);
-                    });
-                }
+                const p = audio.play();
+                if (p !== undefined) p.catch(e => console.log("Autoplay restricted", e));
             }
 
             safeConfetti();
+            setTimeout(safeConfetti, 400);
             startTimer();
         } else {
-            alert('كلمة السر غير صحيحة! الباسورد هو تاريخ يومنا المميز 25-8-2001 ❌❤️');
+            showModal('🔒', 'كلمة السر غلط يا روحي!\nالباسورد هو تاريخ ميلادك ❤️');
         }
     }
 
@@ -559,29 +1274,47 @@
         document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
         document.getElementById(tabId).classList.add('active');
         element.classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        if (tabId === 'ringsTab') {
+            // نوقف الأغنية عشان صوت الفيديو والفويس يبان، ونحمّلهم أول مرة بس
+            const bg = document.getElementById('bgMusic');
+            if (bg) bg.pause();
+            document.querySelectorAll('#ringsTab iframe[data-src]').forEach(f => {
+                f.src = f.dataset.src;
+                f.removeAttribute('data-src');
+            });
+            setTimeout(safeConfetti, 1700);
+        }
     }
 
+    // الأسطوانة تلف مع الأغنية
+    (function () {
+        const audio = document.getElementById('bgMusic');
+        const vinyl = document.getElementById('vinyl');
+        audio.addEventListener('play', () => vinyl.classList.add('playing'));
+        audio.addEventListener('pause', () => vinyl.classList.remove('playing'));
+    })();
+
+    /* ===== الألعاب ===== */
     function chargeBattery() {
-        if (batteryLevel < 100) {
-            batteryLevel += 20;
-            if (batteryLevel > 100) batteryLevel = 100;
-            
-            document.getElementById('batteryFill').style.width = batteryLevel + '%';
-            
-            if (batteryLevel === 100) {
-                document.getElementById('batteryStatus').innerText = "قلبي اتفول وبقى 100% بحبك! 🔋💗";
-                safeConfetti();
-            } else {
-                document.getElementById('batteryStatus').innerText = "الشحن الآن: " + batteryLevel + "% ⚡";
-            }
-        } else {
+        if (batteryLevel < 100) batteryLevel = Math.min(100, batteryLevel + 20);
+
+        const fill = document.getElementById('batteryFill');
+        fill.style.width = batteryLevel + '%';
+        fill.style.backgroundPosition = (100 - batteryLevel) + '% 0';
+        document.getElementById('batteryPct').textContent = batteryLevel + '%';
+
+        if (batteryLevel === 100) {
             document.getElementById('batteryStatus').innerText = "قلبي اتفول وبقى 100% بحبك! 🔋💗";
             safeConfetti();
+        } else {
+            document.getElementById('batteryStatus').innerText = "الشحن الآن: " + batteryLevel + "% ⚡";
         }
     }
 
     function calculateLove() {
-        alert("النتيجة = بحبك للأبد! ∞ 💗");
+        showModal('🧮', 'النتيجة = بحبك للأبد! ∞ 💗');
         safeConfetti();
     }
 
@@ -596,54 +1329,41 @@
             document.getElementById('gameResult').innerText = "إجابة صحيحة 100%! طبعاً أي حاجة من إيدك سكر! 👑💖";
             safeConfetti();
         } else {
-            document.getElementById('gameResult').innerText = "جربي تاني.. الاختيار الثالث هو الأقرب لقلبي 😉❤️";
+            document.getElementById('gameResult').innerText = "جربي تاني.. الاختيار التالت هو الأقرب لقلبي 😉❤️";
         }
     }
 
     function showDailyMessage() {
-        const today = new Date();
-        const startOfYear = new Date(today.getFullYear(), 0, 0);
-        const diff = today - startOfYear;
-        const oneDay = 1000 * 60 * 60 * 24;
-        const dayOfYear = Math.floor(diff / oneDay);
-        
-        const messageIndex = dayOfYear % dailyMessages.length;
-        alert(dailyMessages[messageIndex]);
+        const [n, l, t] = dailyCombo(dayNumber(), [msgNicks.length, msgLines.length, msgTails.length], 2);
+        showModal('💌', `${msgNicks[n]}\n${msgLines[l]}\n${msgTails[t]}`);
     }
 
     function acceptCall() {
-        alert("ألو.. وحشتيني أووي على فكرة! 💖");
-        window.location.href = "tel:+201027431616";
+        showModal('📞', 'ألو.. وحشتيني أووي على فكرة! 💖');
+        setTimeout(() => { window.location.href = "tel:+201027431616"; }, 1200);
     }
 
     function rejectCall() {
-        alert("مفيش رفض، برضه بحبك! 🤪");
+        showModal('🤪', 'مفيش رفض، برضه بحبك!');
     }
 
     function openCallModal() {
         const bgMusic = document.getElementById('bgMusic');
         const callSong = document.getElementById('callSong');
-
         if (bgMusic) bgMusic.pause();
-
         if (callSong) {
-            callSong.currentTime = 44; 
-            var playPromise = callSong.play();
-            if (playPromise !== undefined) {
-                playPromise.catch(function(error) { console.log("Audio playback failed: ", error); });
-            }
+            callSong.currentTime = 44;
+            const p = callSong.play();
+            if (p !== undefined) p.catch(err => console.log("Audio playback failed: ", err));
         }
-
         document.getElementById('callModal').classList.add('active');
     }
 
     function closeCallModal() {
         const bgMusic = document.getElementById('bgMusic');
         const callSong = document.getElementById('callSong');
-
         if (callSong) callSong.pause();
         if (bgMusic) bgMusic.play().catch(e => console.log(e));
-
         document.getElementById('callModal').classList.remove('active');
     }
 
@@ -653,36 +1373,51 @@
     }
 
     function showVipPowers() {
-        alert("👑 صلاحيات الملكة رورو المطلقة:\n1. الدلع والتأليل بدون حدود ❤️\n2. تنفيذ الأوامر فوراً 🫡\n3. مكانة ثابتة في قلب عمر للأبد 💍");
+        showModal('👑', 'صلاحيات الملكة رورو المطلقة:\n1. الدلع والتدليل بدون حدود ❤️\n2. تنفيذ الأوامر فوراً 🫡\n3. مكانة ثابتة في قلب عمر للأبد 💍');
         safeConfetti();
     }
 
     function spinRealWheel() {
+        if (wheelSpinning) return;
+        wheelSpinning = true;
+        document.getElementById('wheelResult').innerText = "";
+
         const wheel = document.getElementById('wheel');
+        // نفس ترتيب ألوان العجلة مع عقارب الساعة من فوق
         const options = ["سينما 🎬", "عشاء رومانسي 🍝", "خروجة كورنيش 🌊", "مول وشوبينج 🛍️"];
-        const randomDeg = Math.floor(3600 + Math.random() * 360);
-        
-        wheel.style.transform = `rotate(${randomDeg}deg)`;
-        
+        wheelRotation += 1800 + Math.floor(Math.random() * 360);
+        wheel.style.transform = `rotate(${wheelRotation}deg)`;
+
         setTimeout(() => {
-            const actualDeg = randomDeg % 360;
-            const optionIndex = Math.floor(actualDeg / 90);
-            const selectedOption = options[optionIndex] || options[0];
-            document.getElementById('wheelResult').innerText = "مبروك طلعلك: " + selectedOption + " 🥳✨";
+            // السهم ثابت فوق، فالجزء اللي تحته هو عكس زاوية اللف
+            const pointerAngle = (360 - (wheelRotation % 360)) % 360;
+            const selected = options[Math.floor(pointerAngle / 90)];
+            document.getElementById('wheelResult').innerText = "مبروك طلعلك: " + selected + " 🥳✨";
             safeConfetti();
+            wheelSpinning = false;
         }, 4000);
     }
 
     function moveSlide(direction) {
-        const wrapper = document.getElementById('sliderWrapper');
         currentIndex += direction;
-        
         if (currentIndex < 0) currentIndex = totalSlides - 1;
         if (currentIndex >= totalSlides) currentIndex = 0;
-        
-        wrapper.style.transform = `translateX(${currentIndex * 100}%)`;
+        document.getElementById('sliderWrapper').style.transform = `translateX(${currentIndex * 100}%)`;
         document.getElementById('slideNum').innerText = currentIndex + 1;
     }
+
+    // سحب الصور بالصباع على الموبايل
+    (function () {
+        const slider = document.querySelector('.slider-container');
+        let startX = null;
+        slider.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+        slider.addEventListener('touchend', e => {
+            if (startX === null) return;
+            const dx = e.changedTouches[0].clientX - startX;
+            if (Math.abs(dx) > 40) moveSlide(dx > 0 ? 1 : -1);
+            startX = null;
+        });
+    })();
 
     function answerQuiz() {
         document.getElementById('quizResponse').innerText = "وأنا بحب كل تفصيلة فيكي يا ملكتي ❤️";
@@ -690,17 +1425,403 @@
     }
 
     function chillMode() {
-        alert("يلا بينا جهزي نفسك لأحلى خروجة على الكورنيش مع عصير مانجو والروقان كله! 🌊🍹✨");
+        showModal('🌊', 'يلا بينا جهزي نفسك لأحلى خروجة على الكورنيش مع عصير مانجو والروقان كله! 🍹✨');
         safeConfetti();
     }
 
+    /* =====================================================
+       محرك المحتوى اليومي
+       كل يوم بيركّب جواب ورسالة وكوبونات من أجزاء كتير.
+       التركيبة بتتحدد من رقم اليوم بطريقة مبتتكررش
+       (الجواب لوحده عنده ملايين التركيبات = آلاف السنين)
+       ===================================================== */
+    function dayNumber() {
+        const start = new Date(2026, 0, 31);
+        const n = new Date();
+        const today = new Date(n.getFullYear(), n.getMonth(), n.getDate());
+        return Math.round((today - start) / 86400000) + 1;
+    }
+    function gcd(a, b) { while (b) { [a, b] = [b, a % b]; } return a; }
+    // بيحوّل رقم اليوم لتركيبة فريدة: كل يوم تركيبة مختلفة لحد ما كل التركيبات تخلص
+    function dailyCombo(day, sizes, salt) {
+        const N = sizes.reduce((a, b) => a * b, 1);
+        // خطوة قريبة من النسبة الذهبية عشان كل أجزاء الجواب تتغير كل يوم مش جزء واحد بس
+        let A = Math.floor(N * 0.6180339887) + salt;
+        while (gcd(A, N) !== 1) A++;
+        let e = ((day * A + salt * 7777) % N + N) % N;
+        return sizes.map(s => { const i = e % s; e = Math.floor(e / s); return i; });
+    }
+    function seededRandom(seed) {
+        return function () {
+            seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+            let t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+            t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+            return ((t ^ t >>> 14) >>> 0) / 4294967296;
+        };
+    }
+
+    /* ----- أجزاء الجواب ----- */
+    const letterGreetings = [
+        "حبيبتي روان،", "يا روح قلبي رورو،", "إلى أجمل حاجة حصلتلي في حياتي،", "يا ملكة قلبي وعقلي،",
+        "يومك سعيد يا رورو،", "إلى خطيبتي وحبيبتي ونصيبي الحلو،", "يا قمري،", "يا أغلى من روحي،",
+        "إلى رورو.. صاحبة أحلى ضحكة،", "يا نور عيني،", "إلى ملكة مملكتنا الصغيرة،", "يا أحلى اختيار في حياتي،"
+    ];
+    const letterOpenings = [
+        "النهارده وأنا بفكر فيكي لقيت نفسي بضحك لوحدي زي المجنون، وعرفت إنك سكنتي قلبي خلاص.",
+        "كل يوم بصحى فيه بحمد ربنا إنك موجودة في حياتي، وإن اسمك بقى جنب اسمي.",
+        "عايز أقولك حاجة بسيطة بس من قلبي: إنتي أحلى حاجة في يومي، كل يوم.",
+        "مفيش حاجة في الدنيا بتريحني قد صوتك، حتى لو بتحكيلي عن حاجة عادية خالص.",
+        "بقالي شوية بدوّر على كلام يوصفك، ولقيت إن مفيش كلام يكفي، فقلت أكتبلك اللي جوايا وخلاص.",
+        "عارفة؟ كل ما الدنيا بتضيق عليا، بفتكر ضحكتك وكل حاجة بتهون.",
+        "أنا مش شاطر أوي في الكلام الحلو، بس قلبي شاطر جداً في إنه يحبك.",
+        "لو حد سألني إيه أحلى قرار خدته في حياتي، هقوله من غير تفكير: إني اخترتك.",
+        "فيه إحساس حلو بيجيلي كل ما ألاقي رسالة منك.. إحساس إن الدنيا كلها بخير.",
+        "إنتي مش بس حبيبتي، إنتي صاحبتي اللي بحكيلها كل حاجة، وأماني اللي بستخبى فيه.",
+        "كل مرة بشوفك فيها بحس إني بشوفك لأول مرة، وبحبك من الأول.",
+        "النهارده حبيت أفكرك بحاجة إنتي عارفاها كويس: إنك أغلى حاجة عندي.",
+        "وجودك في حياتي خلاني أعرف يعني إيه راحة البال بجد.",
+        "ساعات ببص للدبلة في إيدي وأبتسم، عشان بفتكر إنها مربوطة بأحلى قلب.",
+        "قلبي بيدق بطريقة مختلفة لما بسمع اسمك، حتى لو حد تاني اللي بيقوله."
+    ];
+    const letterMiddles = [
+        "لسه فاكر أول مرة اتكلمنا فيها، وإزاي الكلام كان طالع مننا كأننا نعرف بعض من سنين.",
+        "مش ناسي يوم ما قلتلك بحبك لأول مرة، وإزاي قلبي كان بيدق وأنا مستني ردك.",
+        "يوم ما اتقدمتلك كان من أحلى أيام عمري، وكنت حاسس إني بكتب أول سطر في حكايتنا.",
+        "يوم قراية الفاتحة حسيت إن ربنا بيقولي: دي نصيبك، حافظ عليها.",
+        "ليلة خطوبتنا ولبسنا الدبل لسه محفورة في قلبي بكل تفاصيلها.",
+        "بحب الطريقة اللي بتضحكي بيها لما بقول نكتة بايخة، وبتعملي نفسك مش عاجباكي.",
+        "بحب اهتمامك بيا لما بتسأليني أكلت ولا لأ، وبصراحة بموت في ده.",
+        "بحب لما بتحكيلي عن يومك بكل تفاصيله، حتى لو الحكاية طولت ساعة.",
+        "بحب غيرتك عليا، وبحب أكتر إنك واثقة فيا.",
+        "كل مكالمة بينا بتبقى أقصر من اللي نفسي فيه، مهما طولت.",
+        "أحلى لحظاتي هي اللي بنكون فيها مع بعض ومش بنعمل حاجة غير إننا بنضحك.",
+        "بحب طيبة قلبك، وإزاي بتحبي الناس من غير ما تستني منهم حاجة.",
+        "لما بتكوني تعبانة بحس إن أنا اللي تعبان، ولما بتضحكي بحس الدنيا كلها بتضحك.",
+        "إنتي علمتيني إن الحب مش كلام، الحب تفاصيل صغيرة بتتعمل كل يوم.",
+        "صورنا سوا بقيت بفتحها كل شوية، وكل مرة ألاقي فيها حاجة جديدة بحبها فيكي."
+    ];
+    const letterPromises = [
+        "وبوعدك إني هفضل جنبك في الحلو قبل الصعب، ومش هسيب إيدك أبداً.",
+        "وبوعدك إني أعيش عمري كله أحاول أخليكي أسعد واحدة في الدنيا.",
+        "وبوعدك إن بيتنا هيبقى مليان ضحك وحب وأمان.",
+        "وبوعدك إني أسمعك دايماً، حتى لما متقوليش حاجة.",
+        "وبوعدك إني أفضل أحبك كأننا لسه أول يوم، مهما السنين عدّت.",
+        "وبوعدك إني أبقى ضهرك وسندك في أي حاجة تمري بيها.",
+        "وبوعدك إني مش هخلي يوم يعدي من غير ما أقولك بحبك.",
+        "وبوعدك إن ضحكتك هتفضل أولويتي الأولى.",
+        "وبوعدك إني هحافظ عليكي زي ما بحافظ على روحي، لأنك روحي.",
+        "وبوعدك إننا هنكبر سوا، وهفضل شايفك أحلى واحدة في الدنيا حتى وإحنا عواجيز.",
+        "وبوعدك إني هدعيلك في كل صلاة، وإن ربنا يجمعنا في الدنيا والآخرة.",
+        "وبوعدك إني هصالحك دايماً، حتى لو أنا اللي زعلان.",
+        "وبوعدك إني مش هبطل أفاجئك بحاجات صغيرة تفرحك.",
+        "وبوعدك إني أكون الشخص اللي تستاهليه، وأحسن كمان.",
+        "وبوعدك إن حكايتنا هتبقى أحلى حكاية حب ممكن تتحكي."
+    ];
+    const letterClosings = [
+        "إنتي روحي، وإنتي أعظم اختيار في حياتي ❤️", "بحبك النهارده أكتر من امبارح، وأقل من بكرة 💕",
+        "خلي بالك من نفسك عشاني، عشان إنتي كل حاجة عندي 🌸", "ربنا يخليكي ليا ويديمك نعمة في حياتي 🤲❤️",
+        "مستني اللحظة اللي أشوفك فيها تاني على نار 🔥💍", "افتكري دايماً إن فيه واحد بيحبك أكتر من نفسه 💖",
+        "إنتي الأولى والتانية والتالتة والرابعة 💍💍💍💍", "يومك يبقى حلو زيك بالظبط ✨",
+        "ابتسمي، عشان الدنيا بتحلو لما بتضحكي 😊", "بحبك يا رورو.. للأبد وبعد الأبد ♾️",
+        "إنتي بيتي، وأنا مش عايز أروح غير ليكي 🏡", "لحد آخر نفس فيا، هفضل بحبك ❤️"
+    ];
+    const letterSigns = [
+        "Forever yours, Omar", "Always & forever, Omar", "Yours till the end, Omar", "With all my love, Omar",
+        "Your Omar ♥", "Love you endlessly, Omar", "Only yours, Omar", "Your husband-to-be, Omar"
+    ];
+
+    /* ----- أجزاء رسالة اليوم ----- */
+    const msgNicks = [
+        "يا روحي،", "يا رورو،", "يا قمري،", "يا نور عيني،", "يا ملكتي،", "يا حبيبتي،", "يا أحلى اختيار،",
+        "يا عمري،", "يا ست البنات،", "يا روان قلبي،", "يا أغلى الناس،", "يا ضحكة قلبي،", "يا بنت قلبي،", "يا أميرتي،"
+    ];
+    const msgLines = [
+        "إنتي أول حاجة في بالي الصبح وآخر حاجة قبل ما أنام.", "وجودك في حياتي هو أحلى رزق ربنا رزقهولي.",
+        "كل ثانية بتعدي بحبك فيها أكتر.", "ضحكتك هي روقان يومي كله.",
+        "مفيش يوم بيعدي من غير ما أشكر ربنا عليكي.", "إنتي مش خطيبتي بس، إنتي نوري وملجئي.",
+        "صوتك هو الأكسجين اللي بتنفسه.", "معاكي كل حاجة بتبقى أسهل وأحلى.",
+        "عيونك هي المكان الوحيد اللي بحس فيه بالأمان.", "لو رجع بيا الزمن هختارك تاني وتالت ومليون مرة.",
+        "إنتي الحلم اللي اتحقق من غير ما أطلبه.", "قلبي ملكك من أول كلمة اتقالت بينا.",
+        "إنتي السبب في كل ابتسامة على وشي.", "بحبك بطريقة مفيش كلام يقدر يوصفها.",
+        "كل ما أفتكرك قلبي يرقص من الفرحة.", "إنتي أحلى صدفة بقت أجمل نصيب."
+    ];
+    const msgTails = [
+        "بحبك ❤️", "ربنا يديمك ليا 🤲", "وحشتيني 🥺", "للأبد 💍", "إنتي روحي 💖", "دمتِ لي ✨",
+        "متنسيش تبتسمي 🌸", "بحبك أكتر من امبارح 💕", "يا كل دنيتي 🌍❤️", "وهفضل أحبك 👑", "مستنيكي 💌", "حضن كبير 🤗"
+    ];
+
+    /* ----- جوابات أيام مخصوصة (رقم اليوم من 31-1-2026) ----- */
+    const specialLetters = {
+        // 11 أكتوبر 2026: أول جواب
+        254: {
+            body: "حبيبتي روان،<br>" +
+                "من أول يوم اتكلمنا فيه وأنا حاسس إن ربنا بعتلي هدية أكبر من أي حاجة كنت أتمناها. " +
+                "إنتي مش بس خطيبتي، إنتي صاحبتي وأماني وضحكتي وراحة بالي. " +
+                "كل يوم بيعدي بحبك فيه أكتر من اللي قبله، وبوعدك إني هفضل جنبك في كل لحظة، في الحلو قبل الصعب، " +
+                "وإني هعيش عمري كله أحاول أخليكي أسعد واحدة في الدنيا.<br>" +
+                "إنتي روحي، وإنتي أعظم اختيار في حياتي ❤️",
+            sign: "Forever yours, Omar"
+        }
+    };
+
+    /* ----- الجواب ----- */
+    function renderLetter() {
+        const day = dayNumber();
+        const [g, o, m, p, c, s] = dailyCombo(day, [
+            letterGreetings.length, letterOpenings.length, letterMiddles.length,
+            letterPromises.length, letterClosings.length, letterSigns.length
+        ], 1);
+        let dateStr = '';
+        try { dateStr = new Date().toLocaleDateString('ar-EG', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }); } catch (e) {}
+
+        let body = `${letterGreetings[g]}<br>${letterOpenings[o]} ${letterMiddles[m]} ${letterPromises[p]}<br>${letterClosings[c]}`;
+        let sign = letterSigns[s];
+        // جوابات مكتوبة مخصوص ليوم معين بتظهر بدل الجواب المتركّب
+        if (specialLetters[day]) {
+            body = specialLetters[day].body;
+            sign = specialLetters[day].sign;
+        }
+
+        document.getElementById('letterNum').textContent = day;
+        document.getElementById('letterBody').innerHTML =
+            `<div style="font-size: 13px; opacity: .6; margin-bottom: 6px;">${dateStr}</div>` + body;
+        document.getElementById('letterSign').textContent = sign;
+
+        // نقفل الظرف تاني عشان الجواب الجديد يتفتح من الأول
+        document.getElementById('envelope').classList.remove('open');
+        document.getElementById('letterPaper').classList.remove('show');
+        document.getElementById('envHint').style.display = '';
+    }
+
+    function openLetter() {
+        const env = document.getElementById('envelope');
+        if (env.classList.contains('open')) return;
+        env.classList.add('open');
+        document.getElementById('envHint').style.display = 'none';
+        setTimeout(() => {
+            document.getElementById('letterPaper').classList.add('show');
+            safeConfetti();
+        }, 1100);
+    }
+
+    /* ===== افتحي لما ===== */
+    // كل حالة ليها أكتر من رسالة، وكل يوم بتتغير هي والـ ب.س اللي تحتها
+    const openWhenMessages = {
+        sad: ['🥺', [
+            'ممنوع الزعل على الوش الحلو ده!\nافتكري إن فيه واحد في الدنيا مستعد يعمل أي حاجة عشان يشوف ضحكتك.\nكلميني دلوقتي، وأنا هنسّيكي أي حاجة مضايقاكي ❤️',
+            'تعالي هنا.. اعتبري ده حضن كبير أوي 🤗\nأي حاجة مزعلاكي صغيرة جنب قد إيه إنتي غالية.\nوأنا موجود، ابعتيلي وهسيب أي حاجة في إيدي عشانك 💖',
+            'الدموع دي غالية أوي عليا يا رورو..\nامسحيها وافتكري إن بكرة أحلى، وإني هفضل جنبك لحد ما ترجعي تضحكي 🌸'
+        ]],
+        miss: ['💭', [
+            'وإنتي كمان وحشاني أكتر ما تتخيلي..\nغمضي عينك وافتكري آخر مرة ضحكنا فيها سوا، أنا هناك معاكي.\nوقريب أوي هنبقى مع بعض على طول 💍',
+            'لو الشوق ده كان مسافة، كنت قطعتها مشي عشان أشوفك 🥺\nكلميني دلوقتي، صوتك هيهدّي الاتنين 📞❤️',
+            'بصي على الدبلة اللي في إيدك..\nأنا لابس زيها دلوقتي وبفكر فيكي برضه 💍✨'
+        ]],
+        sleep: ['🌙', [
+            'نامي يا قمري..\nتخيلي إني جنبك بحكيلك حكاية لحد ما تنامي.\nوبكرة الصبح أول رسالة هتوصلك هتبقى مني ✨\nتصبحي على خير يا روحي 🌸',
+            'غمضي عينك وعدّي معايا: واحد بحبك، اتنين بحبك، تلاتة بحبك..\nأكيد هتنامي قبل ما أخلص، عشان أنا مش هخلص أبداً 😴❤️',
+            'القمر النهارده بيغير منك عشان إنتي أحلى منه 🌙\nنامي وإنتي مطمنة، أنا بدعيلك 🤲'
+        ]],
+        stress: ['😮‍💨', [
+            'خدي نفس عميق.. وطلعيه بالراحة.\nإنتي أقوى وأشطر مما تتخيلي، وأنا واثق فيكي جداً.\nومهما يحصل، أنا ضهرك وسندك 💪❤️',
+            'استريحي خمس دقايق، اشربي حاجة سخنة، وافتكري إن كل ده هيعدي ☕\nوأنا فخور بيكي في كل الأحوال 👑',
+            'إنتي مش لوحدك في أي حاجة..\nقوليلي إيه اللي ضاغطك وهنحلها سوا، حتة حتة 🤝💖'
+        ]],
+        angry: ['😤', [
+            'أنا آسف يا حبيبتي، حقك عليا من غير ما أعرف عملت إيه 😅\nبس بجد، زعلك عندي غالي ومش عايز أكون سببه أبداً.\nسامحيني، والمرة الجاية العزومة عليا 🍫🌹',
+            'عارف إني ساعات بغلط.. بس عمري ما بقصد أزعلك 🥺\nإديني فرصة أصالحك، وأوعدك المصالحة هتبقى تستاهل 🌹',
+            'إنتي عندك حق (حتى لو مش عارف في إيه لسه 😂)\nبس الأهم إنك متناميش وإنتي زعلانة.. كلميني ❤️'
+        ]],
+        happy: ['🥰', [
+            'فرحتك هي فرحتي!\nأنا مبسوط عشانك جداً، وعايز أسمع كل التفاصيل حالاً.\nكلميني واحكيلي، وربنا يديم ضحكتك دي يا رب ❤️',
+            'الضحكة دي لايقة عليكي أوي 😍\nخليها على طول، وأنا هعمل كل اللي أقدر عليه عشان متمشيش 🌸',
+            'يا بخت اليوم اللي إنتي فرحانة فيه ✨\nاحكيلي كل حاجة بالتفصيل، أنا سامعك 👂💕'
+        ]]
+    };
+    const openWhenPS = [
+        "ب.س: بحبك 😌", "ب.س: إنتي أحلى من القمر النهارده 🌙", "ب.س: ابعتيلي صورة لضحكتك 📸",
+        "ب.س: خليكي فاكرة إنك روحي 💖", "ب.س: الحضن الجاي عليا 🤗", "ب.س: متنسيش تشربي مية 💧😂",
+        "ب.س: إنتي نسائي الأربعة 💍", "ب.س: مستني أسمع صوتك 📞", "ب.س: الشوكولاتة في الطريق 🍫",
+        "ب.س: إنتي أعظم اختيار 🎵", "ب.س: قلبي معاكي دايماً ❤️", "ب.س: وحشتيني على فكرة 🥺",
+        "ب.س: ابتسمي بقى 😊", "ب.س: ربنا يحفظك ليا 🤲", "ب.س: إنتي الأحلى، ومفيش نقاش 👑"
+    ];
+    function openWhen(key) {
+        const [emoji, variants] = openWhenMessages[key];
+        const salt = 10 + Object.keys(openWhenMessages).indexOf(key);
+        const [v, ps] = dailyCombo(dayNumber(), [variants.length, openWhenPS.length], salt);
+        showModal(emoji, variants[v] + '\n\n' + openWhenPS[ps]);
+    }
+
+    /* ===== الحضن ===== */
+    (function () {
+        const btn = document.getElementById('hugBtn');
+        const circle = document.getElementById('hugCircle');
+        const status = document.getElementById('hugStatus');
+        const FULL = 440, DURATION = 2000;
+        let startT = null, raf = null;
+
+        function frame(t) {
+            if (startT === null) startT = t;
+            const p = Math.min(1, (t - startT) / DURATION);
+            circle.style.strokeDashoffset = FULL * (1 - p);
+            if (p < 1) { raf = requestAnimationFrame(frame); }
+            else { finish(); }
+        }
+        function begin(e) {
+            e.preventDefault();
+            btn.classList.add('holding');
+            status.textContent = 'كمّلي ضغط.. الحضن بيتحمّل 🤗';
+            startT = null;
+            raf = requestAnimationFrame(frame);
+        }
+        function cancel() {
+            if (raf === null) return;
+            cancelAnimationFrame(raf); raf = null;
+            btn.classList.remove('holding');
+            circle.style.strokeDashoffset = FULL;
+            status.textContent = 'سبتيه بسرعة كده ليه؟ 🥺 جربي تاني';
+        }
+        function finish() {
+            raf = null;
+            btn.classList.remove('holding');
+            status.textContent = 'الحضن وصل لعمر ودفّا قلبه 🤗❤️';
+            safeConfetti();
+            showModal('🤗', 'استلمت أكبر وأدفى حضن في الدنيا..\nومردود ليكي أضعاف لحد ما نتقابل ❤️');
+            setTimeout(() => { circle.style.strokeDashoffset = FULL; }, 800);
+        }
+        btn.addEventListener('pointerdown', begin);
+        btn.addEventListener('pointerup', cancel);
+        btn.addEventListener('pointerleave', cancel);
+        btn.addEventListener('pointercancel', cancel);
+        btn.addEventListener('contextmenu', e => e.preventDefault());
+    })();
+
+    /* ===== ليه بحبك ===== */
+    const loveReasons = [
+        "عشان ضحكتك بتنور الدنيا كلها 🌞",
+        "عشان لما بتقولي اسمي بيبقى أحلى اسم في الدنيا",
+        "عشان قلبك أبيض وطيب زي الأطفال 🤍",
+        "عشان بتهتمي بأصغر تفاصيلي",
+        "عشان عيونك فيها حكاية أنا عايز أعيشها كلها 👀",
+        "عشان بتصبري عليا وبتفهميني من غير ما أتكلم",
+        "عشان صوتك بيهديني في أصعب الأوقات 🎶",
+        "عشان إنتي بيتي وأماني 🏡",
+        "عشان بحس معاكي إني أنا، من غير تمثيل",
+        "عشان إنتي روحي.. ومن غير روح مفيش حياة ❤️",
+        "عشان بتغيري عليا بطريقة كيوت جداً 😂",
+        "عشان كل ما أشوفك بحبك من الأول",
+        "عشان ربنا اختارك ليا، وأنا اخترتك بكل قلبي 💍",
+        "عشان لما بتزعلي بتبقي قمر برضه 😅🌙"
+    ];
+    let lastReason = -1;
+    function randomReason() {
+        let i;
+        do { i = Math.floor(Math.random() * loveReasons.length); } while (i === lastReason);
+        lastReason = i;
+        const el = document.getElementById('reasonText');
+        el.style.animation = 'none'; el.offsetHeight; el.style.animation = 'screenIn .4s ease';
+        el.textContent = loveReasons[i];
+    }
+
+    /* ===== الكوبونات ===== */
+    const allCoupons = [
+        { e: '🍕', t: 'عزومة على الأكلة اللي تختاريها', s: 'من غير ما تشيلي هم الحساب' },
+        { e: '📞', t: 'مكالمة ساعتين من غير ما أقول عايز أنام', s: 'صالح في أي وقت بالليل' },
+        { e: '🍫', t: 'شوكولاتة وورد على الباب', s: 'مفاجأة في يوم إنتي تحدديه' },
+        { e: '🙊', t: 'كسب أي خناقة فوراً', s: 'عمر يقول "عندك حق" من غير نقاش' },
+        { e: '🛍️', t: 'خروجة شوبينج وأنا أشيل الشنط', s: 'من غير ولا تكشيرة' },
+        { e: '🎬', t: 'سهرة فيلم إنتي اللي تختاريه', s: 'حتى لو رومانسي 3 ساعات' },
+        { e: '☕', t: 'قهوة أو مشروب على حسابي', s: 'في أي مكان تختاريه' },
+        { e: '👑', t: 'يوم دلع كامل', s: 'كل اللي تطلبيه يتنفذ من غير كلمة' },
+        { e: '🍦', t: 'آيس كريم فوري', s: 'حتى لو الساعة 2 بالليل' },
+        { e: '🌹', t: 'بوكيه ورد من غير مناسبة', s: 'عشان إنتي المناسبة' },
+        { e: '🎤', t: 'أغنيلك أغنية بصوتي', s: 'حتى لو صوتي وحش 😂' },
+        { e: '📸', t: 'جلسة تصوير ليكي', s: 'وأنا المصور الصبور' },
+        { e: '🚗', t: 'مشوار لأي مكان تحبيه', s: 'أنا السواق والدليل' },
+        { e: '🙏', t: 'اعتذار رسمي فوري', s: 'حتى لو مش غلطان 😅' },
+        { e: '🎁', t: 'هدية مفاجأة', s: 'إنتي تحددي الميعاد وأنا أحدد الهدية' },
+        { e: '🍰', t: 'حلويات من المكان اللي بتحبيه', s: 'العدد مفتوح' },
+        { e: '💌', t: 'جواب حب بخط إيدي', s: 'على ورق بجد' },
+        { e: '🌊', t: 'قعدة على الكورنيش', s: 'بعصير مانجو وروقان' }
+    ];
+    let coupons = [];
+    // كل يوم 6 كوبونات مختلفة، والمستخدم منها بيتحفظ لليوم ده بس
+    function pickTodayCoupons() {
+        const rnd = seededRandom(dayNumber() * 9973);
+        const idx = allCoupons.map((_, i) => i);
+        for (let i = idx.length - 1; i > 0; i--) {
+            const j = Math.floor(rnd() * (i + 1));
+            [idx[i], idx[j]] = [idx[j], idx[i]];
+        }
+        coupons = idx.slice(0, 6).map(i => ({ id: 'c' + i, ...allCoupons[i] }));
+    }
+    function getUsedCoupons() {
+        try { return JSON.parse(localStorage.getItem('usedCoupons-' + dayNumber()) || '[]'); } catch (e) { return []; }
+    }
+    function renderCoupons() {
+        pickTodayCoupons();
+        const used = getUsedCoupons();
+        document.getElementById('couponList').innerHTML = coupons.map(c => `
+            <div class="coupon ${used.includes(c.id) ? 'used' : ''}">
+                <div class="coupon-emoji">${c.e}</div>
+                <div class="coupon-body"><div class="coupon-title">${c.t}</div><div class="coupon-sub">${c.s}</div></div>
+                <button onclick="redeemCoupon('${c.id}')">${used.includes(c.id) ? 'اتستخدم ✓' : 'استخدميه'}</button>
+            </div>`).join('');
+    }
+    function redeemCoupon(id) {
+        const c = coupons.find(x => x.id === id);
+        const used = getUsedCoupons();
+        if (!used.includes(id)) used.push(id);
+        try { localStorage.setItem('usedCoupons-' + dayNumber(), JSON.stringify(used)); } catch (e) {}
+        renderCoupons();
+        safeConfetti();
+        const msg = encodeURIComponent(`🎟️ رورو استخدمت كوبون حب:\n${c.e} ${c.t}\nنفّذ يا عمر فوراً 😌❤️`);
+        window.open(`https://wa.me/201027431616?text=${msg}`, '_blank');
+    }
+
+    /* ----- تشغيل المحتوى اليومي، ويتجدد لوحده لو الصفحة فضلت مفتوحة لبعد نص الليل ----- */
+    let renderedDay = dayNumber();
+    renderLetter();
+    renderCoupons();
+    setInterval(() => {
+        if (dayNumber() !== renderedDay) {
+            renderedDay = dayNumber();
+            renderLetter();
+            renderCoupons();
+        }
+    }, 60000);
+
+    /* ===== عداد عيد الميلاد (25 أغسطس) ===== */
+    function startBirthdayCountdown() {
+        function tick() {
+            const now = new Date();
+            let next = new Date(now.getFullYear(), 7, 25);
+            const isToday = now.getMonth() === 7 && now.getDate() === 25;
+            if (now >= next && !isToday) next = new Date(now.getFullYear() + 1, 7, 25);
+
+            if (isToday) {
+                ['bdDays', 'bdHours', 'bdMinutes', 'bdSeconds'].forEach(id => document.getElementById(id).innerText = '🎉');
+                document.getElementById('bdNote').textContent = 'كل سنة وإنتي طيبة يا أحلى رورو في الدنيا 🎂❤️';
+                return;
+            }
+            let rest = Math.floor((next - now) / 1000);
+            document.getElementById('bdDays').innerText = Math.floor(rest / 86400); rest %= 86400;
+            document.getElementById('bdHours').innerText = Math.floor(rest / 3600); rest %= 3600;
+            document.getElementById('bdMinutes').innerText = Math.floor(rest / 60);
+            document.getElementById('bdSeconds').innerText = rest % 60;
+        }
+        tick();
+        setInterval(tick, 1000);
+    }
+
+    /* ===== الرسائل ===== */
     function sendWish() {
         const wish = document.getElementById('wishInput').value.trim();
         if (wish !== "") {
             const msg = encodeURIComponent("أمنية الملكة رورو ✨:\n" + wish);
             window.open(`https://wa.me/201027431616?text=${msg}`, '_blank');
         } else {
-            alert("اكتبي أمنيتك الأول يا روحي! ❤️");
+            showModal('🎁', 'اكتبي أمنيتك الأول يا روحي! ❤️');
         }
     }
 
@@ -710,23 +1831,38 @@
             const msg = encodeURIComponent("رسالة من رورو ❤️:\n" + msgText);
             window.open(`https://wa.me/201027431616?text=${msg}`, '_blank');
         } else {
-            alert("اكتبي رسالتك الأول يا روحي! ❤️");
+            showModal('💬', 'اكتبي رسالتك الأول يا روحي! ❤️');
         }
     }
 
+    /* ===== عداد الحب (حساب بالتقويم الحقيقي) ===== */
+    let timerStarted = false;
     function startTimer() {
-        const startDate = new Date("2026-01-31T00:00:00");
-        
-        setInterval(() => {
-            const now = new Date();
-            const diff = now - startDate;
+        if (timerStarted) return;
+        timerStarted = true;
+        const start = new Date(2026, 0, 31, 0, 0, 0);
 
-            const seconds = Math.floor((diff / 1000) % 60);
-            const minutes = Math.floor((diff / (1000 * 60)) % 60);
-            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-            const days = Math.floor((diff / (1000 * 60 * 60 * 24)) % 30);
-            const months = Math.floor((diff / (1000 * 60 * 60 * 24 * 30.4375)) % 12);
-            const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
+        function tick() {
+            const now = new Date();
+            let years = now.getFullYear() - start.getFullYear();
+            let months = now.getMonth() - start.getMonth();
+            let anchor = new Date(start);
+            anchor.setFullYear(start.getFullYear() + years);
+            anchor.setMonth(start.getMonth() + months);
+            // لو الشهر لسه مكملش نرجع شهر
+            while (anchor > now) {
+                months--;
+                anchor = new Date(start);
+                anchor.setFullYear(start.getFullYear() + years);
+                anchor.setMonth(start.getMonth() + months);
+            }
+            while (months < 0) { months += 12; years--; }
+
+            let rest = Math.floor((now - anchor) / 1000);
+            const days = Math.floor(rest / 86400); rest %= 86400;
+            const hours = Math.floor(rest / 3600); rest %= 3600;
+            const minutes = Math.floor(rest / 60);
+            const seconds = rest % 60;
 
             document.getElementById("years").innerText = years;
             document.getElementById("months").innerText = months;
@@ -734,7 +1870,10 @@
             document.getElementById("hours").innerText = hours;
             document.getElementById("minutes").innerText = minutes;
             document.getElementById("seconds").innerText = seconds;
-        }, 1000);
+        }
+        tick();
+        setInterval(tick, 1000);
+        startBirthdayCountdown();
     }
 </script>
 </body>
